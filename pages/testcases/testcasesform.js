@@ -1,8 +1,29 @@
 import CkEditor from "../ckeditor/Ckeditor";
+import { baseUrl } from "../api/hello";
+import { useState } from "react";
 const Testcasesform = () => {
+    const [test, setTest] = useState([])
+    const [tests, setTests] = useState('')
 
+    const fetchdata = async () => {
+        const response = await fetch(`${baseUrl}data?PK=aa`)
+        const data = await response.json()
+        setTest(data)
+        console.log(data);
+    }
+    const postdata = async () => {
+        const response = await fetch(`${baseUrl}postdata`, {
+            method: 'POST',
+            body: JSON.stringify({ tests }),
+            headers: {
+                'content-Type': 'application/json',
+            },
+        })
+        const data = await response.json()
+    }
     return (
         <>
+
 
             <form>
                 <div className="mb-3">
@@ -78,6 +99,9 @@ const Testcasesform = () => {
                     </label>
                     <CkEditor />
                 </div>
+                <button onClick={() => {
+                    fetchdata();
+                }} className="btn btn-primary">submit</button>
 
             </form>
         </>

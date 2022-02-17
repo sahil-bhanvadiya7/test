@@ -14,14 +14,17 @@ function Editor({ onChange, editorLoaded, name, value }) {
     return (
         <>
             {editorLoaded ? (
-                <CKEditor
-                    type=""
-                    name={name}
-                    editor={ClassicEditor}
-                    data={value}
-                    onChange={(event, editor) => {
-                    }}
-                />
+                <div className="ck_editer">
+                    <CKEditor
+                        type=""
+                        className="ck_editer1"
+                        name={name}
+                        editor={ClassicEditor}
+                        data={value}
+                        onChange={(event, editor) => {
+                        }}
+                    />
+                </div>
             ) : (
                 <div>Editor loading</div>
             )}
