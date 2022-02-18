@@ -1,31 +1,65 @@
 import CkEditor from "../ckeditor/Ckeditor";
 import { baseUrl } from "../api/hello";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const Testcasesform = () => {
-    const [test, setTest] = useState([])
-    const [tests, setTests] = useState('')
 
-    const fetchdata = async () => {
-        const response = await fetch(`${baseUrl}data?PK=aa`)
-        const data = await response.json()
-        setTest(data)
-        console.log(data);
-    }
-    const postdata = async () => {
+    // const [items, setItems] = useState([]);
+    // useEffect(() => {
+    //     fetch(`${baseUrl}data?PK=aa`)
+    //         .then((res) => res.json())
+    //         .then(
+    //             (result) => {
+    //                 // setIsLoaded(true);
+    //                 setItems(result.data);
+    //                 console.log(items)
+    //             },
+    //         );
+    // }, []);
+    // const clickhandaler = () => {
+    //     console.log(setItems)
+    // }
+    // const data =
+    // {
+    //     title: '',
+    //     description: ''
+
+    // }
+    // console.log(data);
+
+    const [test, setTest] = useState()
+    // useEffect(() => {
+    async function Postdata() {
         const response = await fetch(`${baseUrl}postdata`, {
             method: 'POST',
-            body: JSON.stringify({ tests }),
+            body: JSON.stringify({ test }),
             headers: {
                 'content-Type': 'application/json',
-            },
+
+            }
         })
-        const data = await response.json()
+        const data = await response.json({})
+
+        // setTests(data)
+        console.log(data);
+        // } catch (error) {
+        // const err = error
+        // if (err.response) {
+        //     console.log(err.response)
+        //     console.log(err.response)
+        // }
     }
+
+    // }, []);
+    const handleSubmit = (event) => {
+        // alert('A name was submitted: ' + this.state.value);
+        event.preventDefault();
+    }
+
     return (
         <>
 
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label
                         htmlFor="exampleFormControlInput1"
@@ -34,6 +68,10 @@ const Testcasesform = () => {
                     </label>
                     <input
                         type="text"
+                        name="title"
+                        onChange={((e) => {
+                            setTest(e.target.value)
+                        })}
                         className="form-control"
                     />
 
@@ -44,7 +82,9 @@ const Testcasesform = () => {
                         className="form-label font_1">
                         Description
                     </label>
-                    <CkEditor />
+                    <CkEditor
+                    // name="description"
+                    />
                 </div>
                 <div className="mb-3">
                     <label
@@ -52,7 +92,7 @@ const Testcasesform = () => {
                         className="form-label font_1">
                         Client Profile
                     </label>
-                    <CkEditor />
+                    <CkEditor onChange={((e) => { setTest(e.target.value) })} />
                 </div>
                 <div className="mb-3">
                     <label
@@ -60,7 +100,7 @@ const Testcasesform = () => {
                         className="form-label font_1">
                         Challenge
                     </label>
-                    <CkEditor />
+                    <CkEditor onChange={((e) => { setTest(e.target.value) })} />
                 </div>
                 <div className="mb-5">
                     <label
@@ -73,6 +113,7 @@ const Testcasesform = () => {
                         id="formFileLg"
                         type="file"
                         accept="image/*"
+                        onChange={((e) => { setTest(e.target.value) })}
                     />
                 </div>
                 <div className="mb-3">
@@ -81,7 +122,7 @@ const Testcasesform = () => {
                         className="form-label font_1">
                         Solution
                     </label>
-                    <CkEditor />
+                    <CkEditor onChange={((e) => { setTest(e.target.value) })} />
                 </div>
                 <div className="mb-3">
                     <label
@@ -89,7 +130,7 @@ const Testcasesform = () => {
                         className="form-label font_1">
                         Key Benefits
                     </label>
-                    <CkEditor />
+                    <CkEditor onChange={((e) => { setTest(e.target.value) })} />
                 </div>
                 <div className="mb-3">
                     <label
@@ -97,11 +138,15 @@ const Testcasesform = () => {
                         className="form-label font_1">
                         Used technologies
                     </label>
-                    <CkEditor />
+                    <CkEditor onChange={((e) => { setTest(e.target.value) })} />
                 </div>
-                <button onClick={() => {
-                    fetchdata();
-                }} className="btn btn-primary">submit</button>
+                <button
+                    type="submit"
+                    onClick={() => {
+                        Postdata();
+                    }} className="btn btn-secondary btn-lg shadow-lg buttonform mt-4 mb-4 rounded">
+                    submit
+                </button>
 
             </form>
         </>
