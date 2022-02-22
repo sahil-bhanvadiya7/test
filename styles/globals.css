@@ -103,3 +103,10 @@ height: 10px;
   background-color: #00848a;
   align-items: center;
 }
+.bton_45{
+  margin-left: 10px;
+  display: flex;
+}
+.bton_btn{
+  margin-left: 3rem;
+}

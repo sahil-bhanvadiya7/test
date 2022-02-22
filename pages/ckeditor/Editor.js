@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-function Editor({ onChange, editorLoaded, name, value }) {
+function Editor({ onChange, editorLoaded, name, value, }) {
     const editorRef = useRef();
     const { CKEditor, ClassicEditor } = editorRef.current || {};
 
@@ -19,9 +19,11 @@ function Editor({ onChange, editorLoaded, name, value }) {
                         type=""
                         className="ck_editer1"
                         name={name}
+                        // value={props.data}
                         editor={ClassicEditor}
                         data={value}
                         onChange={(event, editor) => {
+
                         }}
                     />
                 </div>

@@ -1,11 +1,12 @@
 import Navbar from "./Sidebar";
+import Blogform from "./blogform";
 const Blog = () => {
     return (
         <>
             <Navbar />
             <div className="wrapper">
-                <div className="section">
-                    <h2>About</h2>
+                <div className="container mt-5">
+                    <Blogform />
                 </div>
             </div>
         </>
