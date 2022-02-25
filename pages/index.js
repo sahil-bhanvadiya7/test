@@ -1,9 +1,11 @@
-import TestCases from './testcases/testcases';
+import CasestudyList from "./casestudylist";
 const Home = () => {
 
   return (
     <>
-      <TestCases />
+      <CasestudyList />
+      {/* <List /> */}
+      {/* <TestCases /> */}
     </>
   )
 }

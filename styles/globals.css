@@ -110,3 +110,31 @@ height: 10px;
 .bton_btn{
   margin-left: 3rem;
 }
+.addbutton {
+  background-color: #00848a;
+  border:#00848a;
+  border-radius:12px;
+  color: rgb(250, 246, 246);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-left:80%;
+  margin-top: 10px;
+  /* cursor: pointer; */
+}
+.editbutton {
+  background-color: #00848a;
+  border:#00848a;
+  border-radius:12px;
+  color: rgb(250, 246, 246);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-left:90%;
+  margin-top: 10px;
+  /* cursor: pointer; */
+}
