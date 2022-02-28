@@ -34,43 +34,39 @@ nav ul {
 }
 
 nav ul li {
-  list-style: none
-}
+  list-style: none;
+  color: #fff;
 
+}
+.activelink{
+  color: #000000;
+  background: #e3e9f7;
+  border-radius: 40px 0 0 40px;
+}
 nav ul li a {
   display: block;
   font-family: 'Poppins',sans-serif;
   text-decoration: none;
-  text-transform: uppercase;
   font-size: 16px;
-  color: #fff;
-  position: relative;
   padding: 15px 0px 15px 25px;
-  transition: all 0.5s
-}
-
-nav ul li a:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  background: #e3e9f7;
-  border-radius: 40px 0 0 40px;
-  z-index: -1;
-  transition: all 1s
 }
 
 nav ul li a:hover {
-  color: #2b2626
+  color: #2b2626;
+  background: #e3e9f7;
+  border-radius: 40px 0 0 40px;
 }
 
-nav ul li a:hover:before {
-  width: 95%
+.activelink{
+  color: #2b2626;
+  background: #e3e9f7;
+  border-radius: 40px 0 0 40px;
 }
 
 .wrapper {
-  margin-left: 260px
+  margin-left: 260px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .section {
@@ -95,69 +91,20 @@ nav ul li a:hover:before {
   /* height: 10%; */
   width: 100%;
 }
-
 .ck_editer1{
 height: 10px;
 }
-.buttonform{
+.btn{
   background-color: #00848a;
-  align-items: center;
-}
-.bton_45{
-  margin-left: 10px;
-  display: flex;
-}
-.bton_btn{
-  margin-left: 3rem;
-}
-.addbutton {
-  background-color: #00848a;
-  border:#00848a;
-  border-radius:12px;
   color: rgb(250, 246, 246);
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-left:80%;
-  margin-top: 10px;
-  /* cursor: pointer; */
 }
-.editbutton {
-  background-color: #00848a;
-  border:#00848a;
-  border-radius:12px;
-  color: rgb(250, 246, 246);
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-left:90%;
-  margin-top: 10px;
-  /* cursor: pointer; */
+.modifycontainer{
+  padding-right: 20%;
+  padding-left: 20%;
 }
-.split {
-  height: 100%;
-  width: 50%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-.left {
-  left: 30;
-}
-
-.right {
-  right: 0;
-}
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+@media screen and (max-width: 1200px) {
+  .modifycontainer{
+    padding-right: 3%;
+    padding-left: 3%;
+  }
 }

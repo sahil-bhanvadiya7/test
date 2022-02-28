@@ -4,9 +4,6 @@ function Layout(props) {
     <>
       <Navbar />
       <main>{props.children}</main>
-      <footer>
-        <p>Powered By Seaflux</p>
-      </footer>
     </>
   );
 }

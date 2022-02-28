@@ -1,65 +1,50 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 
-const bloglist = () => {
+const bloglist = ({ posts }) => {
   const router = useRouter();
-
-  useEffect(() => {
-    fetch("")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          // setIsLoaded(true);
-          // const dataOfAPI = result.Items[0];
-          setBlog(result);
-
-          console.log(blog);
-        }
-        // console.log(items)
-      );
-  }, []);
   return (
     <>
       <div className="wrapper">
         <button
-          className="addbutton"
+          className="btn float-end me-5 rounded-pill px-4 py-2"
           type="button"
           onClick={() => router.push("bloglist/blogcreateform")}
         >
           ADD Blog
         </button>
+          <h1 className="ms-3">Blog List</h1>
         <div className="container mt-5">
-          <h1>Blog List</h1>
-          {/* <h2>bloglist table</h2> */}
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Sr#</th>
-                <th scope="col">Title</th>
+                <th scope="col" className="text-center">Sr#</th>
+                <th scope="col" className="text-center">Title</th>
               </tr>
             </thead>
 
             <tbody>
-              <button
-                type="button"
-                onClick={() => router.push("bloglist/blogeditform")}
-              >
-                Edit
-              </button>
-              {/* {currentItems.map((value, i) => (
-                                <tr key={value.id}>
-                                    <th scope="row">{i + 1}</th>
-                                    <td>{value}</td>
-                                    <td>{value}</td>
-
-                                    <td>
-                                        <blogedit />
-                                    </td>
-                                </tr>
-                            ))} */}
-              {/* <tr hidden={currentItems.length !== 0}>
-                                <td colSpan='5' className="text-center">No Data Found</td>
-                            </tr> */}
+              {posts.map((value, i) => (
+                <tr key={value.PK}>
+                  <th scope="row" className="text-center">{i + 1}</th>
+                  <td className="text-center">{value.title}</td>
+                  <td className="text-center">
+                    <button
+                      type="button"
+                      className="btn"
+                      onClick={() =>
+                        router.push("bloglist/" + encodeURIComponent(value.PK))
+                      }
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              <tr hidden={posts.length !== 0}>
+                <td colSpan="5" className="text-center">
+                  No Data Found
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -69,3 +54,12 @@ const bloglist = () => {
 };
 
 export default bloglist;
+export async function getStaticProps() {
+  const res = await fetch("https://eeea-117-217-127-227.ngrok.io/blogs/all");
+  const posts = await res.json();
+  return {
+    props: {
+      posts,
+    },
+  };
+}

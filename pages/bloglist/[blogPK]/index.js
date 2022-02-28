@@ -2,43 +2,42 @@ import Editor from "../../../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-const Blogcreateform = () => {
+const BlogEditform = ({ posts, encoded }) => {
   const router = useRouter();
+  console.log(posts);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [blog, setBlog] = useState({
-    title: "",
-    body: "",
-    slug: "",
-    image: "",
-    entityName: "",
-    services: "",
-    shortDesc: "",
+    title: posts.title,
+    body: posts.body,
+    slug: posts.slug,
+    image: posts.image,
+    entityName: posts.entityName,
+    services: posts.services,
+    shortDesc: posts.shortDesc,
   });
 
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
-
+  console.log(blog);
   const handleChange = (ckEditorData) => {
     const temp = { ...blog };
     temp.body = ckEditorData.data;
     setBlog(temp);
     // const temp = { ...ckEditorData }
     // setTarget(temp.data)
-    console.log(ckEditorData);
   };
   const submit = () => {
-    fetch("https://eeea-117-217-127-227.ngrok.io/blog", {
-      method: "POST",
+    fetch(`https://eeea-117-217-127-227.ngrok.io/blog/${encoded}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blog),
-    }).then((response) => response.ok && router.push("/bloglist"));;
-    // M.toast({ html: 'I am a toast!' })
+    }).then((response) => response.ok && router.push("/bloglist"));
   };
   return (
     <>
       <div className="wrapper">
-      <h1 className="ms-4 text-center">Create Blog</h1>
+      <h1 className="ms-4 text-center">Edit Blog</h1>
         <div className="container mt-5 modifycontainer">
           <form
             onSubmit={(e) => {
@@ -80,7 +79,6 @@ const Blogcreateform = () => {
                   const temp = { ...blog };
                   temp.entityName = event.target.value;
                   setBlog(temp);
-                  console.log(blog);
                 }}
                 className="form-control"
               />
@@ -112,7 +110,6 @@ const Blogcreateform = () => {
                   const temp = { ...blog };
                   temp.image = event.target.value;
                   setBlog(temp);
-                  console.log(blog);
                 }}
                 className="form-control"
               />
@@ -133,7 +130,6 @@ const Blogcreateform = () => {
                   const temp = { ...blog };
                   temp.services = event.target.value;
                   setBlog(temp);
-                  console.log(blog);
                 }}
               />
             </div>
@@ -153,7 +149,6 @@ const Blogcreateform = () => {
                   const temp = { ...blog };
                   temp.shortDesc = event.target.value;
                   setBlog(temp);
-                  console.log(blog);
                 }}
               />
             </div>
@@ -173,14 +168,13 @@ const Blogcreateform = () => {
                   const temp = { ...blog };
                   temp.slug = event.target.value;
                   setBlog(temp);
-                  console.log(blog);
                 }}
               />
             </div>
             <input
               type="submit"
               className="btn"
-              value="Create"
+              value="Update"
             />
           </form>
         </div>
@@ -188,5 +182,29 @@ const Blogcreateform = () => {
     </>
   );
 };
-
-export default Blogcreateform;
+export async function getStaticPaths() {
+  const res = await fetch("https://eeea-117-217-127-227.ngrok.io/blogs/all");
+  const posts = await res.json();
+  const paths = posts.map((post) => ({
+    params: { blogPK: post.PK },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+}
+export async function getStaticProps({ params }) {
+  const getparams = params.blogPK;
+  let encoded = encodeURIComponent(getparams);
+  const res = await fetch(
+    `https://eeea-117-217-127-227.ngrok.io/blog/${encoded}`
+  );
+  const posts = await res.json();
+  return {
+    props: {
+      posts,
+      encoded,
+    },
+  };
+}
+export default BlogEditform;

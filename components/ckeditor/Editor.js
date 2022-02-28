@@ -21,7 +21,7 @@ function Editor(props) {
             {props.editorLoaded ? (
                 <div className="ck_editer">
                     <CKEditor
-                        type=""
+                        type="input"
                         className="ck_editer1"
                         name={props.name}
                         value={props.data}

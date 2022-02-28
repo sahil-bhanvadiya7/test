@@ -2,23 +2,24 @@ import Editor from "../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-const CasestudyCreateform = () => {
+const CaseStudyeditform = ({ posts, encoded }) => {
   const router = useRouter();
+  console.log(posts);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState({
-    title: "",
-    entityName: "",
-    clientProfile: "",
-    image: "",
-    challenge: "",
-    industry: "",
-    subTitle: "",
-    solution: "",
-    techs: "",
-    keyBenefits: "",
-    thumbImage: "",
-    mainImage: "",
-    slug: "",
+    title: posts.title,
+    entityName: posts.entityName,
+    clientProfile: posts.clientProfile,
+    image: posts.image,
+    challenge: posts.challenge,
+    industry: posts.industry,
+    subTitle: posts.subTitle,
+    solution: posts.solution,
+    techs: posts.techs,
+    keyBenefits: posts.keyBenefits,
+    thumbImage: posts.thumbImage,
+    mainImage: posts.mainImage,
+    slug: posts.slug,
   });
 
   useEffect(() => {
@@ -34,17 +35,16 @@ const CasestudyCreateform = () => {
     console.log(ckEditorData);
   };
   const submit = () => {
-    fetch("https://eeea-117-217-127-227.ngrok.io/case-study", {
-      method: "POST",
+    fetch(`https://eeea-117-217-127-227.ngrok.io/case-study/${encoded}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     }).then((response) => response.ok && router.push("/"));
-    console.log(data);
   };
   return (
     <>
       <div className="wrapper">
-        <h1 className="ms-4 text-center">Create CaseStudy</h1>
+        <h1 className="ms-4 text-center">Edit CaseStudy</h1>
         <div className="container mt-5 modifycontainer">
           <form
             onSubmit={(e) => {
@@ -99,7 +99,7 @@ const CasestudyCreateform = () => {
                 Client Profile
               </label>
               <Editor
-                name="clientProfile"
+                name="clientprofile"
                 handleEditorData={handleChange}
                 value={data.clientProfile}
                 editorLoaded={editorLoaded}
@@ -135,6 +135,7 @@ const CasestudyCreateform = () => {
                   const temp = { ...data };
                   temp.industry = event.target.value;
                   setData(temp);
+                  setButton("Submit");
                 }}
               />
             </div>
@@ -166,14 +167,18 @@ const CasestudyCreateform = () => {
                 name="subtitle"
                 value={data.subTitle}
                 className="form-control"
+                // onChange={((e) => { setData(e.target.value) })}
                 onChange={(event) => {
                   const temp = { ...data };
                   temp.subTitle = event.target.value;
                   setData(temp);
+                  setButton("Submit");
+
+                  // console.log(data)
                 }}
               />
+              {/* <CkEditor onChange={((e) => { setTest(e.target.value) })} /> */}
             </div>
-
             <div className="mb-5">
               <label htmlFor="formFileLg" className="form-label font_1">
                 Main Image
@@ -236,6 +241,7 @@ const CasestudyCreateform = () => {
                   const temp = { ...data };
                   temp.techs = event.target.value;
                   setData(temp);
+                  setButton("Submit");
                 }}
               />
             </div>
@@ -255,6 +261,7 @@ const CasestudyCreateform = () => {
                   const temp = { ...data };
                   temp.keyBenefits = event.target.value;
                   setData(temp);
+                  setButton("Submit");
                 }}
               />
             </div>
@@ -274,16 +281,42 @@ const CasestudyCreateform = () => {
                   const temp = { ...data };
                   temp.slug = event.target.value;
                   setData(temp);
+                  setButton("Submit");
                 }}
               />
             </div>
-
-            <input type="submit" className="btn" value="Create" />
+            <input type="submit" className="btn" value="Update" />
           </form>
         </div>
       </div>
     </>
   );
 };
-
-export default CasestudyCreateform;
+export async function getStaticPaths() {
+  const res = await fetch(
+    "https://eeea-117-217-127-227.ngrok.io/case-studies/all"
+  );
+  const posts = await res.json();
+  const paths = posts.map((post) => ({
+    params: { casestudyPK: post.PK },
+  }));
+  return {
+    paths,
+    fallback: false,
+  };
+}
+export async function getStaticProps({ params }) {
+  const getparams = params.casestudyPK;
+  let encoded = encodeURIComponent(getparams);
+  const res = await fetch(
+    `https://eeea-117-217-127-227.ngrok.io/case-study/${encoded}`
+  );
+  const posts = await res.json();
+  return {
+    props: {
+      posts,
+      encoded,
+    },
+  };
+}
+export default CaseStudyeditform;
