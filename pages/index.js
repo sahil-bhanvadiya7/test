@@ -1,4 +1,4 @@
-import CasestudyList from "./casestudylist";
+import CasestudyList from "../components/casestudy/CasestudyList";
 const Home = () => {
 
   return (

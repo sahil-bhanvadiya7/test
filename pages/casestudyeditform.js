@@ -1,7 +1,6 @@
-import Editor from "./ckeditor/Editor";
+import Editor from "../components/ckeditor/Editor";
 import { baseUrl } from "./api/hello";
 import { useState, useEffect } from "react";
-import Navbar from "./Sidebar";
 
 const CaseStudyeditform = () => {
     const [editorLoaded, setEditorLoaded] = useState(false);
@@ -25,17 +24,17 @@ const CaseStudyeditform = () => {
     useEffect(() => {
         setEditorLoaded(true);
     }, []);
-    useEffect(() => {
-        fetch(`${baseUrl}test-case?PK=91f890f0-a76b-4bd6-9230-ab6e806e0f16`)
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    const dataOfAPI = result.Items[0];
-                    setData(dataOfAPI);
-                    console.log(dataOfAPI)
-                },
-            );
-    }, []);
+    // useEffect(() => {
+    //     fetch(`${baseUrl}test-case?PK=91f890f0-a76b-4bd6-9230-ab6e806e0f16`)
+    //         .then((res) => res.json())
+    //         .then(
+    //             (result) => {
+    //                 const dataOfAPI = result.Items[0];
+    //                 setData(dataOfAPI);
+    //                 console.log(dataOfAPI)
+    //             },
+    //         );
+    // }, []);
 
     const handleChange = (ckEditorData) => {
         const temp = { ...data }
@@ -54,7 +53,6 @@ const CaseStudyeditform = () => {
     };
     return (
         <>
-            <Navbar />
             <div className="wrapper">
                 <div className="container mt-5">
 
@@ -69,7 +67,7 @@ const CaseStudyeditform = () => {
                             <input
                                 type="text"
                                 name="title"
-                                value={data && data.title}
+                                value={data.title}
                                 className="form-control"
                                 onChange={((event) => {
                                     const temp = { ...data }
@@ -88,7 +86,7 @@ const CaseStudyeditform = () => {
                             <input
                                 type="text"
                                 name="entityname"
-                                value={data && data.entityName}
+                                value={data.entityName}
                                 className="form-control"
                                 onChange={((event) => {
                                     const temp = { ...data }
@@ -107,7 +105,7 @@ const CaseStudyeditform = () => {
                             <Editor
                                 name="clientprofile"
                                 handleEditorData={handleChange}
-                                value={data && data.clientProfile}
+                                value={data.clientProfile}
                                 editorLoaded={editorLoaded}
                             />
                         </div>
@@ -120,7 +118,7 @@ const CaseStudyeditform = () => {
                             <Editor
                                 name="challenge"
                                 handleEditorData={handleChange}
-                                value={data && data.challenge}
+                                value={data.challenge}
                                 editorLoaded={editorLoaded}
                             />
                         </div>
@@ -133,7 +131,7 @@ const CaseStudyeditform = () => {
                             <input
                                 type="text"
                                 name="indutry"
-                                value={data && data.industry}
+                                value={data.industry}
                                 className="form-control"
                                 onChange={
                                     ((event) => {
@@ -153,7 +151,7 @@ const CaseStudyeditform = () => {
                             <input
                                 type="text"
                                 name="image"
-                                value={data && data.image}
+                                value={data.image}
                                 className="form-control"
                                 onChange={((event) => {
                                     const temp = { ...data }
@@ -171,7 +169,7 @@ const CaseStudyeditform = () => {
                             <input
                                 type="text"
                                 name="subtitle"
-                                value={data && data.subTitle}
+                                value={data.subTitle}
                                 className="form-control"
                                 // onChange={((e) => { setData(e.target.value) })}
                                 onChange={((event) => {
@@ -194,7 +192,7 @@ const CaseStudyeditform = () => {
                             <input
                                 type="text"
                                 name="mainimage"
-                                value={data && data.mainImage}
+                                value={data.mainImage}
                                 className="form-control"
                                 onChange={((event) => {
                                     const temp = { ...data }
@@ -212,7 +210,7 @@ const CaseStudyeditform = () => {
                             <input
                                 type="text"
                                 name="title"
-                                value={data && data.thumbImage}
+                                value={data.thumbImage}
                                 className="form-control"
                                 onChange={((event) => {
                                     const temp = { ...data }
@@ -231,7 +229,7 @@ const CaseStudyeditform = () => {
                                 name="solution"
                                 handleEditorData={handleChange}
                                 editorLoaded={editorLoaded}
-                                value={data && data.solution}
+                                value={data.solution}
                             />
                         </div>
                         <div className="mb-3">
@@ -243,7 +241,7 @@ const CaseStudyeditform = () => {
                             <input
                                 type="text"
                                 name="techs"
-                                value={data && data.techs}
+                                value={data.techs}
                                 className="form-control"
                                 onChange={((event) => {
                                     const temp = { ...data }
@@ -261,7 +259,7 @@ const CaseStudyeditform = () => {
                             </label>
                             <input
                                 type="text"
-                                value={data && data.keyBenefits}
+                                value={data.keyBenefits}
                                 name="keybenefits"
                                 className="form-control"
                                 onChange={((event) => {
@@ -280,7 +278,7 @@ const CaseStudyeditform = () => {
                             </label>
                             <input
                                 type="text"
-                                value={data && data.slug}
+                                value={data.slug}
                                 name="slug"
                                 className="form-control"
                                 onChange={((event) => {

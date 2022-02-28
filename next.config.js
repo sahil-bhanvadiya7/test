@@ -1,5 +1,6 @@
 module.exports = {
   reactStrictMode: true,
+  swcMinify: false,
 }
 // const withImages = require("next-images")
 // const withCSS = require("@zeit/next-css")

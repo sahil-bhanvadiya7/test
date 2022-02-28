@@ -1,9 +1,8 @@
-import Editor from "./ckeditor/Editor";
+import Editor from "../../../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
-import { baseUrl } from "./api/hello";
-import Navbar from "./Sidebar";
+import { baseUrl } from "../../api/hello";
 
-const BlogEditform = () => {
+const Blogcreateform = () => {
     const [editorLoaded, setEditorLoaded] = useState(false);
     const [button, setButton] = useState("update");
     const [blog, setBlog] = useState({
@@ -20,21 +19,21 @@ const BlogEditform = () => {
     useEffect(() => {
         setEditorLoaded(true);
     }, []);
-    useEffect(() => {
-        fetch(`${baseUrl}blog?PK=547484e7-050d-4ac5-9208-fd31534dd9d8`)
-            .then((res) => res.json())
-            .then(
-                (result) => {
-                    // setIsLoaded(true);
-                    // const dataOfAPI = result.Items[0];
-                    setBlog(result);
+    // useEffect(() => {
+    //     fetch(`${baseUrl}blog?PK=547484e7-050d-4ac5-9208-fd31534dd9d8`)
+    //         .then((res) => res.json())
+    //         .then(
+    //             (result) => {
+    //                 // setIsLoaded(true);
+    //                 // const dataOfAPI = result.Items[0];
+    //                 setBlog(result);
 
-                    console.log(blog);
-                },
-                // console.log(items)
+    //                 console.log(blog);
+    //             },
+    //             // console.log(items)
 
-            );
-    }, []);
+    //         );
+    // }, []);
     const handleChange = (ckEditorData) => {
         const temp = { ...blog }
         temp.body = ckEditorData.data
@@ -44,14 +43,15 @@ const BlogEditform = () => {
         console.log(ckEditorData)
     }
     const submit = () => {
+        // e.preventDefault();
         fetch(`${baseUrl}blog?PK=547484e7-050d-4ac5-9208-fd31534dd9d8`, {
             method: 'POST',
             body: JSON.stringify({ blog })
         })
+        // M.toast({ html: 'I am a toast!' })
     };
     return (
         <>
-            <Navbar />
             <div className="wrapper">
                 <div className="container mt-5">
                     <form onSubmit={(e) => { e.preventDefault(); submit() }}>
@@ -64,7 +64,7 @@ const BlogEditform = () => {
                             <input
                                 type="text"
                                 name="title"
-                                value={blog && blog.title}
+                                // value={blog && blog.title}
                                 className="form-control"
                                 onChange={((event) => {
                                     const temp = { ...blog }
@@ -83,7 +83,7 @@ const BlogEditform = () => {
                             <input
                                 type="text"
                                 name="entityName"
-                                value={blog && blog.entityName}
+                                // value={blog && blog.entityName}
                                 onChange={((event) => {
                                     const temp = { ...blog }
                                     temp.entityName = event.target.value
@@ -104,7 +104,7 @@ const BlogEditform = () => {
                                 name="body"
                                 handleEditorData={handleChange}
                                 editorLoaded={editorLoaded}
-                                value={blog && blog.body}
+                            // value={blog && blog.body}
                             />
                         </div>
                         <div className="mb-5">
@@ -116,7 +116,7 @@ const BlogEditform = () => {
                             <input
                                 type="text"
                                 name="image"
-                                value={blog && blog.image}
+                                // value={blog && blog.image}
                                 onChange={((event) => {
                                     const temp = { ...blog }
                                     temp.image = event.target.value
@@ -136,7 +136,7 @@ const BlogEditform = () => {
                                 type="text"
                                 name="services"
                                 className="form-control"
-                                value={blog && blog.services}
+                                // value={blog && blog.services}
                                 onChange={((event) => {
                                     const temp = { ...blog }
                                     temp.services = event.target.value
@@ -156,7 +156,7 @@ const BlogEditform = () => {
                                 type="text"
                                 name="shortDesc"
                                 className="form-control"
-                                value={blog && blog.shortDesc}
+                                // value={blog && blog.shortDesc}
                                 onChange={((event) => {
                                     const temp = { ...blog }
                                     temp.shortDesc = event.target.value
@@ -176,7 +176,7 @@ const BlogEditform = () => {
                                 type="text"
                                 name="slug"
                                 className="form-control"
-                                value={blog && blog.slug}
+                                // value={blog && blog.slug}
                                 onChange={((event) => {
                                     const temp = { ...blog }
                                     temp.slug = event.target.value
@@ -197,4 +197,4 @@ const BlogEditform = () => {
     )
 }
 
-export default BlogEditform
+export default Blogcreateform

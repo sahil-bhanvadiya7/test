@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-const bloglist = () => {
+const CasestudyList = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -15,22 +15,21 @@ const bloglist = () => {
 
           console.log(blog);
         }
-        // console.log(items)
       );
   }, []);
+
   return (
     <>
       <div className="wrapper">
         <button
-          className="addbutton"
           type="button"
-          onClick={() => router.push("bloglist/blogcreateform")}
+          className="addbutton"
+          onClick={() => router.push("/casestudycreateform")}
         >
-          ADD Blog
+          ADD CaseStudy
         </button>
+        <h1>CaseStudy list</h1>
         <div className="container mt-5">
-          <h1>Blog List</h1>
-          {/* <h2>bloglist table</h2> */}
           <table className="table">
             <thead>
               <tr>
@@ -41,8 +40,9 @@ const bloglist = () => {
 
             <tbody>
               <button
+                className="editbutton "
                 type="button"
-                onClick={() => router.push("bloglist/blogeditform")}
+                onClick={() => router.push("/casestudyeditform")}
               >
                 Edit
               </button>
@@ -68,4 +68,4 @@ const bloglist = () => {
   );
 };
 
-export default bloglist;
+export default CasestudyList;
