@@ -16,22 +16,30 @@ const Home = ({ posts }) => {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col" className="text-center">Sr#</th>
-                <th scope="col" className="text-center">Title</th>
+                <th scope="col" className="text-center">
+                  Sr#
+                </th>
+                <th scope="col" className="text-center">
+                  Title
+                </th>
               </tr>
             </thead>
 
             <tbody>
               {posts.map((value, i) => (
                 <tr key={value.PK}>
-                  <th scope="row" className="text-center">{i + 1}</th>
+                  <th scope="row" className="text-center">
+                    {i + 1}
+                  </th>
                   <td className="text-center">{value.title}</td>
 
                   <td className="text-center">
                     <button
                       className="btn"
                       type="button"
-                      onClick={() => router.push("/" + encodeURIComponent(value.PK))}
+                      onClick={() =>
+                        router.push("/" + encodeURIComponent(value.PK))
+                      }
                     >
                       Edit
                     </button>
@@ -52,7 +60,7 @@ const Home = ({ posts }) => {
 };
 export async function getStaticProps() {
   const res = await fetch(
-    "https://eeea-117-217-127-227.ngrok.io/case-studies/all"
+    "https://b413-117-217-127-227.ngrok.io/case-studies/all"
   );
   const posts = await res.json();
   return {

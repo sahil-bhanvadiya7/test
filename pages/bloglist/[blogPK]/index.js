@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 const BlogEditform = ({ posts, encoded }) => {
   const router = useRouter();
-  console.log(posts);
+  // console.log(posts);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [blog, setBlog] = useState({
     title: posts.title,
@@ -28,7 +28,7 @@ const BlogEditform = ({ posts, encoded }) => {
     // setTarget(temp.data)
   };
   const submit = () => {
-    fetch(`https://eeea-117-217-127-227.ngrok.io/blog/${encoded}`, {
+    fetch(`https://b413-117-217-127-227.ngrok.io/blogs/${encoded}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blog),
@@ -183,7 +183,7 @@ const BlogEditform = ({ posts, encoded }) => {
   );
 };
 export async function getStaticPaths() {
-  const res = await fetch("https://eeea-117-217-127-227.ngrok.io/blogs/all");
+  const res = await fetch("https://b413-117-217-127-227.ngrok.io/blogs/all");
   const posts = await res.json();
   const paths = posts.map((post) => ({
     params: { blogPK: post.PK },
@@ -197,7 +197,7 @@ export async function getStaticProps({ params }) {
   const getparams = params.blogPK;
   let encoded = encodeURIComponent(getparams);
   const res = await fetch(
-    `https://eeea-117-217-127-227.ngrok.io/blog/${encoded}`
+    `https://b413-117-217-127-227.ngrok.io/blogs/byId/${encoded}`
   );
   const posts = await res.json();
   return {

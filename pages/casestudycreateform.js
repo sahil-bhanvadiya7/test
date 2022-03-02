@@ -20,6 +20,7 @@ const CasestudyCreateform = () => {
     mainImage: "",
     slug: "",
   });
+  // const [Image, setImage] = useState({ file: null });
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -33,8 +34,23 @@ const CasestudyCreateform = () => {
     // setTarget(temp.data)
     console.log(ckEditorData);
   };
+  // const onImageChange = (event) => {
+  //   if (event.target.files && event.target.files[0]) {
+  //     const img = event.target.files[0];
+  //     setImage({ file: img });
+  //   }
+  // };
+  // const onImageUploadHandler = (e) => {
+  //   e.preventDefault();
+  //   console.log(Image.file);
+    // fetch("https://b413-117-217-127-227.ngrok.io/blogs/images", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(Image),
+    // }).then((response) => console.log(response.json()));
+  // };
   const submit = () => {
-    fetch("https://eeea-117-217-127-227.ngrok.io/case-study", {
+    fetch("https://b413-117-217-127-227.ngrok.io/case-studies", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -154,6 +170,29 @@ const CasestudyCreateform = () => {
                 }}
               />
             </div>
+            {/* <div className="mb-3">
+              <label
+                htmlFor="exampleFormControlInput1"
+                className="form-label font_1"
+              >
+                Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                name="image"
+                className="form-control"
+                onChange={onImageChange}
+              />
+            </div>
+            <div className="my-3">
+              <input
+                type="button my-3"
+                className="btn"
+                value="Upload Image"
+                onClick={onImageUploadHandler}
+              />
+            </div> */}
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"

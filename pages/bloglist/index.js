@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 
 const bloglist = ({ posts }) => {
+  // console.log(posts);
   const router = useRouter();
   return (
     <>
@@ -55,7 +56,7 @@ const bloglist = ({ posts }) => {
 
 export default bloglist;
 export async function getStaticProps() {
-  const res = await fetch("https://eeea-117-217-127-227.ngrok.io/blogs/all");
+  const res = await fetch("https://b413-117-217-127-227.ngrok.io/blogs/all");
   const posts = await res.json();
   return {
     props: {

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 const CaseStudyeditform = ({ posts, encoded }) => {
   const router = useRouter();
-  console.log(posts);
+  // console.log(posts);
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [data, setData] = useState({
     title: posts.title,
@@ -35,7 +35,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
     console.log(ckEditorData);
   };
   const submit = () => {
-    fetch(`https://eeea-117-217-127-227.ngrok.io/case-study/${encoded}`, {
+    fetch(`https://b413-117-217-127-227.ngrok.io/case-studies/${encoded}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -135,7 +135,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.industry = event.target.value;
                   setData(temp);
-                  setButton("Submit");
+                  
                 }}
               />
             </div>
@@ -172,7 +172,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.subTitle = event.target.value;
                   setData(temp);
-                  setButton("Submit");
+                  
 
                   // console.log(data)
                 }}
@@ -241,7 +241,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.techs = event.target.value;
                   setData(temp);
-                  setButton("Submit");
+                  
                 }}
               />
             </div>
@@ -261,7 +261,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.keyBenefits = event.target.value;
                   setData(temp);
-                  setButton("Submit");
+                  
                 }}
               />
             </div>
@@ -281,7 +281,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.slug = event.target.value;
                   setData(temp);
-                  setButton("Submit");
+                  
                 }}
               />
             </div>
@@ -294,7 +294,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
 };
 export async function getStaticPaths() {
   const res = await fetch(
-    "https://eeea-117-217-127-227.ngrok.io/case-studies/all"
+    "https://b413-117-217-127-227.ngrok.io/case-studies/all"
   );
   const posts = await res.json();
   const paths = posts.map((post) => ({
@@ -309,7 +309,7 @@ export async function getStaticProps({ params }) {
   const getparams = params.casestudyPK;
   let encoded = encodeURIComponent(getparams);
   const res = await fetch(
-    `https://eeea-117-217-127-227.ngrok.io/case-study/${encoded}`
+    `https://b413-117-217-127-227.ngrok.io/case-studies/byId/${encoded}`
   );
   const posts = await res.json();
   return {

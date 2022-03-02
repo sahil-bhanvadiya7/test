@@ -14,6 +14,7 @@ const Blogcreateform = () => {
     services: "",
     shortDesc: "",
   });
+  const [blogImage, setBlogImage] = useState({ file: null });
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -27,18 +28,40 @@ const Blogcreateform = () => {
     // setTarget(temp.data)
     console.log(ckEditorData);
   };
+  const onBlogImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const img = event.target.files[0];
+      setBlogImage({ file: img });
+    }
+  };
+  const onImageUploadHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", blogImage.file);
+    fetch("https://b413-117-217-127-227.ngrok.io/blogs/images", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const temp = { ...blog };
+        temp.image = data.imagePath;
+        setBlog(temp);
+      });
+  };
   const submit = () => {
-    fetch("https://eeea-117-217-127-227.ngrok.io/blog", {
+    fetch("https://b413-117-217-127-227.ngrok.io/blogs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blog),
-    }).then((response) => response.ok && router.push("/bloglist"));;
+    }).then((response) => response.ok && router.push("/bloglist"));
     // M.toast({ html: 'I am a toast!' })
   };
+  console.log(blog);
   return (
     <>
       <div className="wrapper">
-      <h1 className="ms-4 text-center">Create Blog</h1>
+        <h1 className="ms-4 text-center">Create Blog</h1>
         <div className="container mt-5 modifycontainer">
           <form
             onSubmit={(e) => {
@@ -64,6 +87,30 @@ const Blogcreateform = () => {
                   setBlog(temp);
                 }}
               />
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="exampleFormControlInput1"
+                className="form-label font_1"
+              >
+                Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                name="file"
+                className="form-control"
+                onChange={onBlogImageChange}
+              />
+            </div>
+            <div className="my-3">
+              <button
+                type="button my-3"
+                className="btn"
+                onClick={onImageUploadHandler}
+              >
+                Upload Image
+              </button>
             </div>
             <div className="mb-3">
               <label
@@ -100,7 +147,7 @@ const Blogcreateform = () => {
                 value={blog && blog.body}
               />
             </div>
-            <div className="mb-5">
+            {/* <div className="mb-5">
               <label htmlFor="formFileLg" className="form-label font_1">
                 Image Select
               </label>
@@ -116,6 +163,9 @@ const Blogcreateform = () => {
                 }}
                 className="form-control"
               />
+            </div> */}
+            <div className="mb-3">
+              <img src='381dc309-a51a-4ebf-8c59-b68f49fc9363.jpeg' alt='pic' />
             </div>
             <div className="mb-3">
               <label
@@ -177,11 +227,7 @@ const Blogcreateform = () => {
                 }}
               />
             </div>
-            <input
-              type="submit"
-              className="btn"
-              value="Create"
-            />
+            <input type="submit" className="btn" value="Create" />
           </form>
         </div>
       </div>
