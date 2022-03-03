@@ -9,31 +9,37 @@ const bloglist = ({ posts }) => {
         <button
           className="btn float-end me-5 rounded-pill px-4 py-2"
           type="button"
-          onClick={() => router.push("bloglist/blogcreateform")}
+          onClick={() => router.push("/bloglist/blogcreateform")}
         >
           ADD Blog
         </button>
-          <h1 className="ms-3">Blog List</h1>
+        <h1 className="ms-3">Blog List</h1>
         <div className="container mt-5">
           <table className="table">
             <thead>
               <tr>
-                <th scope="col" className="text-center">Sr#</th>
-                <th scope="col" className="text-center">Title</th>
+                <th scope="col" className="text-center">
+                  Sr#
+                </th>
+                <th scope="col" className="text-center">
+                  Title
+                </th>
               </tr>
             </thead>
 
             <tbody>
               {posts.map((value, i) => (
                 <tr key={value.PK}>
-                  <th scope="row" className="text-center">{i + 1}</th>
+                  <th scope="row" className="text-center">
+                    {i + 1}
+                  </th>
                   <td className="text-center">{value.title}</td>
                   <td className="text-center">
                     <button
                       type="button"
                       className="btn"
                       onClick={() =>
-                        router.push("bloglist/" + encodeURIComponent(value.PK))
+                        router.push("/bloglist/" + encodeURIComponent(value.PK))
                       }
                     >
                       Edit
@@ -56,7 +62,8 @@ const bloglist = ({ posts }) => {
 
 export default bloglist;
 export async function getStaticProps() {
-  const res = await fetch("https://b413-117-217-127-227.ngrok.io/blogs/all");
+  const url = process.env.BASE_URL;
+  const res = await fetch(`${url}blogs/all`);
   const posts = await res.json();
   return {
     props: {

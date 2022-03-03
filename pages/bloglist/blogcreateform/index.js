@@ -15,6 +15,7 @@ const Blogcreateform = () => {
     shortDesc: "",
   });
   const [blogImage, setBlogImage] = useState({ file: null });
+  const [imageLoading, setimageLoading] = useState(false);
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -24,9 +25,6 @@ const Blogcreateform = () => {
     const temp = { ...blog };
     temp.body = ckEditorData.data;
     setBlog(temp);
-    // const temp = { ...ckEditorData }
-    // setTarget(temp.data)
-    console.log(ckEditorData);
   };
   const onBlogImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -34,30 +32,38 @@ const Blogcreateform = () => {
       setBlogImage({ file: img });
     }
   };
+  console.log(blogImage.file);
   const onImageUploadHandler = (e) => {
     e.preventDefault();
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", blogImage.file);
-    fetch("https://b413-117-217-127-227.ngrok.io/blogs/images", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const temp = { ...blog };
-        temp.image = data.imagePath;
-        setBlog(temp);
-      });
+    if (blogImage.file) {
+      setimageLoading(true);
+      fetch(`${url}blogs/images`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setimageLoading(true);
+          const temp = { ...blog };
+          temp.image = data.imagePath;
+          setBlog(temp);
+          setimageLoading(false);
+        });
+    }
   };
-  const submit = () => {
-    fetch("https://b413-117-217-127-227.ngrok.io/blogs", {
+  const submit = (e) => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
+    fetch(`${url}blogs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blog),
     }).then((response) => response.ok && router.push("/bloglist"));
     // M.toast({ html: 'I am a toast!' })
   };
-  console.log(blog);
+  console.log(blog.image);
   return (
     <>
       <div className="wrapper">
@@ -109,8 +115,19 @@ const Blogcreateform = () => {
                 className="btn"
                 onClick={onImageUploadHandler}
               >
-                Upload Image
+                {imageLoading ? "Uploading..." : "Upload Image"}
               </button>
+            </div>
+            <div className="mb-3">
+              {blog.image ? (
+                <img
+                  src={blog.image}
+                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
+                  alt="pic"
+                />
+              ) : (
+                <p className="text-danger">Please upload image for preview.</p>
+              )}
             </div>
             <div className="mb-3">
               <label
@@ -164,9 +181,6 @@ const Blogcreateform = () => {
                 className="form-control"
               />
             </div> */}
-            <div className="mb-3">
-              <img src='381dc309-a51a-4ebf-8c59-b68f49fc9363.jpeg' alt='pic' />
-            </div>
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"

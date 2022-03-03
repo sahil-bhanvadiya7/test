@@ -21,6 +21,12 @@ const CaseStudyeditform = ({ posts, encoded }) => {
     mainImage: posts.mainImage,
     slug: posts.slug,
   });
+  const [Image, setImage] = useState({ file: null });
+  const [MainImage, setMainImage] = useState({ file: null });
+  const [ThumbImage, setThumbImage] = useState({ file: null });
+  const [imageLoading, setimageLoading] = useState(false);
+  const [mainImageLoading, setMainImageLoading] = useState(false);
+  const [thumbImageLoading, setThumbImageLoading] = useState(false);
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -34,8 +40,87 @@ const CaseStudyeditform = ({ posts, encoded }) => {
     // setTarget(temp.data)
     console.log(ckEditorData);
   };
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const img = event.target.files[0];
+      setImage({ file: img });
+    }
+  };
+  const onImageUploadHandler = (e) => {
+    e.preventDefault();
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
+    const formData = new FormData();
+    formData.append("image", Image.file);
+    if (Image.file) {
+      setimageLoading(true);
+      fetch(`${url}blogs/images`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((imgdata) => {
+          const temp = { ...data };
+          temp.image = imgdata.imagePath;
+          setData(temp);
+          setimageLoading(false);
+        });
+    }
+  };
+  const onMainImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const img = event.target.files[0];
+      setMainImage({ file: img });
+    }
+  };
+  const onMainImageUploadHandler = (e) => {
+    e.preventDefault();
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
+    const formData = new FormData();
+    formData.append("image", MainImage.file);
+    if (MainImage.file) {
+      setMainImageLoading(true);
+      fetch(`${url}blogs/images`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((imgdata) => {
+          const temp = { ...data };
+          temp.mainImage = imgdata.imagePath;
+          setData(temp);
+          setMainImageLoading(false);
+        });
+    }
+  };
+  const onThumbImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const img = event.target.files[0];
+      setThumbImage({ file: img });
+    }
+  };
+  const onThumbImageUploadHandler = (e) => {
+    e.preventDefault();
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
+    const formData = new FormData();
+    formData.append("image", ThumbImage.file);
+    if (ThumbImage.file) {
+      setThumbImageLoading(true);
+      fetch(`${url}blogs/images`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((imgdata) => {
+          const temp = { ...data };
+          temp.thumbImage = imgdata.imagePath;
+          setData(temp);
+          setThumbImageLoading(false);
+        });
+    }
+  };
   const submit = () => {
-    fetch(`https://b413-117-217-127-227.ngrok.io/case-studies/${encoded}`, {
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
+    fetch(`${url}case-studies/${encoded}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -135,11 +220,143 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.industry = event.target.value;
                   setData(temp);
-                  
                 }}
               />
             </div>
-            <div className="mb-5">
+
+            <div className="mb-3">
+              <label
+                htmlFor="exampleFormControlInput1"
+                className="form-label font_1"
+              >
+                SubTitle
+              </label>
+              <input
+                type="text"
+                name="subtitle"
+                value={data.subTitle}
+                className="form-control"
+                onChange={(event) => {
+                  const temp = { ...data };
+                  temp.subTitle = event.target.value;
+                  setData(temp);
+                }}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label
+                htmlFor="exampleFormControlInput1"
+                className="form-label font_1"
+              >
+                Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                name="file"
+                className="form-control"
+                onChange={onImageChange}
+              />
+            </div>
+            <div className="my-3">
+              <button
+                type="button my-3"
+                className="btn"
+                onClick={onImageUploadHandler}
+              >
+                {imageLoading ? "Uploading..." : "Upload Image"}
+              </button>
+            </div>
+            <div className="mb-3">
+              {data.image ? (
+                <img
+                  src={data.image}
+                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
+                  alt="pic"
+                />
+              ) : (
+                <p className="text-danger">Please upload image for preview.</p>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <label
+                htmlFor="exampleFormControlInput1"
+                className="form-label font_1"
+              >
+                Main Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                name="mainfile"
+                className="form-control"
+                onChange={onMainImageChange}
+              />
+            </div>
+            <div className="my-3">
+              <button
+                type="button my-3"
+                className="btn"
+                onClick={onMainImageUploadHandler}
+              >
+                {mainImageLoading ? "Uploading..." : "Upload Image"}
+              </button>
+            </div>
+            <div className="mb-3">
+              {data.mainImage ? (
+                <img
+                  src={data.mainImage}
+                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
+                  alt="pic"
+                />
+              ) : (
+                <p className="text-danger">
+                  Please upload Main image for preview.
+                </p>
+              )}
+            </div>
+
+            <div className="mb-3">
+              <label
+                htmlFor="exampleFormControlInput1"
+                className="form-label font_1"
+              >
+                Thumb Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                name="thumbfile"
+                className="form-control"
+                onChange={onThumbImageChange}
+              />
+            </div>
+            <div className="my-3">
+              <button
+                type="button my-3"
+                className="btn"
+                onClick={onThumbImageUploadHandler}
+              >
+                {thumbImageLoading ? "Uploading..." : "Upload Image"}
+              </button>
+            </div>
+            <div className="mb-3">
+              {data.thumbImage ? (
+                <img
+                  src={data.thumbImage}
+                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
+                  alt="pic"
+                />
+              ) : (
+                <p className="text-danger">
+                  Please upload Thumb image for preview.
+                </p>
+              )}
+            </div>
+
+            {/* <div className="mb-5">
               <label htmlFor="formFileLg" className="form-label font_1">
                 Image Select
               </label>
@@ -154,63 +371,8 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   setData(temp);
                 }}
               />
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlInput1"
-                className="form-label font_1"
-              >
-                SubTitle
-              </label>
-              <input
-                type="text"
-                name="subtitle"
-                value={data.subTitle}
-                className="form-control"
-                // onChange={((e) => { setData(e.target.value) })}
-                onChange={(event) => {
-                  const temp = { ...data };
-                  temp.subTitle = event.target.value;
-                  setData(temp);
-                  
+            </div> */}
 
-                  // console.log(data)
-                }}
-              />
-              {/* <CkEditor onChange={((e) => { setTest(e.target.value) })} /> */}
-            </div>
-            <div className="mb-5">
-              <label htmlFor="formFileLg" className="form-label font_1">
-                Main Image
-              </label>
-              <input
-                type="text"
-                name="mainimage"
-                value={data.mainImage}
-                className="form-control"
-                onChange={(event) => {
-                  const temp = { ...data };
-                  temp.mainImage = event.target.value;
-                  setData(temp);
-                }}
-              />
-            </div>
-            <div className="mb-5">
-              <label htmlFor="formFileLg" className="form-label font_1">
-                Thumb Image
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={data.thumbImage}
-                className="form-control"
-                onChange={(event) => {
-                  const temp = { ...data };
-                  temp.thumbImage = event.target.value;
-                  setData(temp);
-                }}
-              />
-            </div>
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -241,7 +403,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.techs = event.target.value;
                   setData(temp);
-                  
                 }}
               />
             </div>
@@ -261,7 +422,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.keyBenefits = event.target.value;
                   setData(temp);
-                  
                 }}
               />
             </div>
@@ -281,7 +441,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   const temp = { ...data };
                   temp.slug = event.target.value;
                   setData(temp);
-                  
                 }}
               />
             </div>
@@ -293,9 +452,8 @@ const CaseStudyeditform = ({ posts, encoded }) => {
   );
 };
 export async function getStaticPaths() {
-  const res = await fetch(
-    "https://b413-117-217-127-227.ngrok.io/case-studies/all"
-  );
+  const url = process.env.BASE_URL;
+  const res = await fetch(`${url}case-studies/all`);
   const posts = await res.json();
   const paths = posts.map((post) => ({
     params: { casestudyPK: post.PK },
@@ -308,9 +466,8 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const getparams = params.casestudyPK;
   let encoded = encodeURIComponent(getparams);
-  const res = await fetch(
-    `https://b413-117-217-127-227.ngrok.io/case-studies/byId/${encoded}`
-  );
+  const url = process.env.BASE_URL;
+  const res = await fetch(`${url}case-studies/byId/${encoded}`);
   const posts = await res.json();
   return {
     props: {

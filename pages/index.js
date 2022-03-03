@@ -59,9 +59,8 @@ const Home = ({ posts }) => {
   );
 };
 export async function getStaticProps() {
-  const res = await fetch(
-    "https://b413-117-217-127-227.ngrok.io/case-studies/all"
-  );
+  const url = process.env.BASE_URL;
+  const res = await fetch(`${url}case-studies/all`);
   const posts = await res.json();
   return {
     props: {
