@@ -10,7 +10,7 @@ const BlogEditform = ({ posts, encoded }) => {
   const [body, setBody] = useState(posts.body);
   const [slug, setSlug] = useState(posts.slug);
   const [image, setImage] = useState(posts.image);
-  const [entityName, setEntityName] = useState(posts.entityName);
+  // const [entityName, setEntityName] = useState(posts.entityName);
   const [services, setServices] = useState(posts.services);
   const [shortDesc, setShortDesc] = useState(posts.shortDesc);
   const [blogImage, setBlogImage] = useState({ file: null });
@@ -54,7 +54,6 @@ const BlogEditform = ({ posts, encoded }) => {
     body,
     slug,
     image,
-    entityName,
     services,
     shortDesc,
   };
@@ -98,7 +97,7 @@ const BlogEditform = ({ posts, encoded }) => {
                 }}
               />
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
                 className="form-label font_1"
@@ -114,7 +113,7 @@ const BlogEditform = ({ posts, encoded }) => {
                 }}
                 className="form-control"
               />
-            </div>
+            </div> */}
 
             <div className="mb-3">
               <label

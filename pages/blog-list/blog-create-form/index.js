@@ -10,7 +10,7 @@ const Blogcreateform = () => {
   const [body, setBody] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState("");
-  const [entityName, setEntityName] = useState("");
+  // const [entityName, setEntityName] = useState("");
   const [services, setServices] = useState("");
   const [shortDesc, setShortDesc] = useState("");
   const [blogImage, setBlogImage] = useState({ file: null });
@@ -54,7 +54,6 @@ const Blogcreateform = () => {
     body,
     slug,
     image,
-    entityName,
     services,
     shortDesc,
   };
@@ -139,7 +138,7 @@ const Blogcreateform = () => {
               </button>
             </div>
 
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
                 className="form-label font_1"
@@ -155,7 +154,7 @@ const Blogcreateform = () => {
                 }}
                 className="form-control"
               />
-            </div>
+            </div> */}
 
             <div className="mb-3">
               <label

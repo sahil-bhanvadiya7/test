@@ -9,7 +9,7 @@ const CasestudyCreateform = () => {
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [title, setTitle] = useState("");
-  const [entityName, setEntityName] = useState("");
+  // const [entityName, setEntityName] = useState("");
   const [clientProfile, setClientProfile] = useState("");
   const [image, setimage] = useState("");
   const [challenge, setChallenge] = useState("");
@@ -28,21 +28,6 @@ const CasestudyCreateform = () => {
   const [mainImageLoading, setMainImageLoading] = useState(false);
   const [thumbImageLoading, setThumbImageLoading] = useState(false);
   // const uploadLoading = imageLoading || mainImageLoading || thumbImageLoading;
-  // const [data, setData] = useState({
-  //   title: "",
-  //   entityName: "",
-  //   clientProfile: "",
-  //   image: "",
-  //   challenge: "",
-  //   industry: "",
-  //   subTitle: "",
-  //   solution: "",
-  //   techs: "",
-  //   keyBenefits: "",
-  //   thumbImage: "",
-  //   mainImage: "",
-  //   slug: "",
-  // });
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -137,7 +122,6 @@ const CasestudyCreateform = () => {
   };
   const data = {
     title,
-    entityName,
     clientProfile,
     image,
     challenge,
@@ -192,7 +176,7 @@ const CasestudyCreateform = () => {
                 }}
               />
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
                 className="form-label font_1"
@@ -208,7 +192,7 @@ const CasestudyCreateform = () => {
                   setEntityName(event.target.value);
                 }}
               />
-            </div>
+            </div> */}
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"

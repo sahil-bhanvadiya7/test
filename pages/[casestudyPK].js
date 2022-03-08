@@ -10,7 +10,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [title, setTitle] = useState(posts.title);
-  const [entityName, setEntityName] = useState(posts.entityName);
+  // const [entityName, setEntityName] = useState(posts.entityName);
   const [clientProfile, setClientProfile] = useState(posts.clientProfile);
   const [image, setimage] = useState(posts.image);
   const [challenge, setChallenge] = useState(posts.challenge);
@@ -123,7 +123,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
   };
   const data = {
     title,
-    entityName,
     clientProfile,
     image,
     challenge,
@@ -177,7 +176,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                 }}
               />
             </div>
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
                 className="form-label font_1"
@@ -193,7 +192,7 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                   setEntityName(event.target.value);
                 }}
               />
-            </div>
+            </div> */}
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
