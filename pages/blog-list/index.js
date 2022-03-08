@@ -9,7 +9,7 @@ const bloglist = ({ posts }) => {
         <button
           className="btn float-end me-5 rounded-pill px-4 py-2"
           type="button"
-          onClick={() => router.push("/bloglist/blogcreateform")}
+          onClick={() => router.push("/blog-list/blog-create-form")}
         >
           ADD Blog
         </button>
@@ -39,7 +39,7 @@ const bloglist = ({ posts }) => {
                       type="button"
                       className="btn"
                       onClick={() =>
-                        router.push("/bloglist/" + encodeURIComponent(value.PK))
+                        router.push("/blog-list/" + encodeURIComponent(value.PK))
                       }
                     >
                       Edit

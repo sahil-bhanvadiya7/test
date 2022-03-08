@@ -7,7 +7,7 @@ const Home = ({ posts }) => {
         <button
           type="button"
           className="btn float-end me-5 rounded-pill py-2 px-3"
-          onClick={() => router.push("/casestudycreateform")}
+          onClick={() => router.push("/case-study-create-form")}
         >
           ADD CaseStudy
         </button>

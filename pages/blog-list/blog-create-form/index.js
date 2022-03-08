@@ -1,30 +1,26 @@
 import Editor from "../../../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { toast } from "react-toastify";
+import LoadingModal from "../../../components/Modal/LoadingModal";
 const Blogcreateform = () => {
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
-  const [blog, setBlog] = useState({
-    title: "",
-    body: "",
-    slug: "",
-    image: "",
-    entityName: "",
-    services: "",
-    shortDesc: "",
-  });
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [slug, setSlug] = useState("");
+  const [image, setImage] = useState("");
+  const [entityName, setEntityName] = useState("");
+  const [services, setServices] = useState("");
+  const [shortDesc, setShortDesc] = useState("");
   const [blogImage, setBlogImage] = useState({ file: null });
   const [imageLoading, setimageLoading] = useState(false);
-
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
 
   const handleChange = (ckEditorData) => {
-    const temp = { ...blog };
-    temp.body = ckEditorData.data;
-    setBlog(temp);
+    setBody(ckEditorData.data);
   };
   const onBlogImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -47,12 +43,20 @@ const Blogcreateform = () => {
         .then((response) => response.json())
         .then((data) => {
           setimageLoading(true);
-          const temp = { ...blog };
-          temp.image = data.imagePath;
-          setBlog(temp);
+          const responseImage = data.imagePath;
+          setImage(responseImage);
           setimageLoading(false);
         });
     }
+  };
+  const blog = {
+    title,
+    body,
+    slug,
+    image,
+    entityName,
+    services,
+    shortDesc,
   };
   const submit = (e) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -60,10 +64,12 @@ const Blogcreateform = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blog),
-    }).then((response) => response.ok && router.push("/bloglist"));
-    // M.toast({ html: 'I am a toast!' })
+    }).then((response) => {
+      response.ok &&
+        router.replace("/blog-list") &&
+        toast.success("Blog created successfully.");
+    });
   };
-  console.log(blog.image);
   return (
     <>
       <div className="wrapper">
@@ -85,15 +91,14 @@ const Blogcreateform = () => {
               <input
                 type="text"
                 name="title"
-                value={blog && blog.title}
+                value={title}
                 className="form-control"
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.title = event.target.value;
-                  setBlog(temp);
+                  setTitle(event.target.value);
                 }}
               />
             </div>
+
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -109,6 +114,21 @@ const Blogcreateform = () => {
                 onChange={onBlogImageChange}
               />
             </div>
+            {blogImage.file ? (
+              <div className="mb-3">
+                <img
+                  src={URL.createObjectURL(blogImage.file)}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
+                  alt="beforepic"
+                />
+              </div>
+            ) : (
+              <p className="text-danger">Please select image for preview.</p>
+            )}
             <div className="my-3">
               <button
                 type="button my-3"
@@ -118,17 +138,7 @@ const Blogcreateform = () => {
                 {imageLoading ? "Uploading..." : "Upload Image"}
               </button>
             </div>
-            <div className="mb-3">
-              {blog.image ? (
-                <img
-                  src={blog.image}
-                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
-                  alt="pic"
-                />
-              ) : (
-                <p className="text-danger">Please upload image for preview.</p>
-              )}
-            </div>
+
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -139,12 +149,9 @@ const Blogcreateform = () => {
               <input
                 type="text"
                 name="entityName"
-                value={blog && blog.entityName}
+                value={entityName}
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.entityName = event.target.value;
-                  setBlog(temp);
-                  console.log(blog);
+                  setEntityName(event.target.value);
                 }}
                 className="form-control"
               />
@@ -161,26 +168,9 @@ const Blogcreateform = () => {
                 name="body"
                 handleEditorData={handleChange}
                 editorLoaded={editorLoaded}
-                value={blog && blog.body}
+                value={body}
               />
             </div>
-            {/* <div className="mb-5">
-              <label htmlFor="formFileLg" className="form-label font_1">
-                Image Select
-              </label>
-              <input
-                type="text"
-                name="image"
-                value={blog && blog.image}
-                onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.image = event.target.value;
-                  setBlog(temp);
-                  console.log(blog);
-                }}
-                className="form-control"
-              />
-            </div> */}
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -192,12 +182,9 @@ const Blogcreateform = () => {
                 type="text"
                 name="services"
                 className="form-control"
-                value={blog && blog.services}
+                value={services}
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.services = event.target.value;
-                  setBlog(temp);
-                  console.log(blog);
+                  setServices(event.target.value);
                 }}
               />
             </div>
@@ -212,12 +199,9 @@ const Blogcreateform = () => {
                 type="text"
                 name="shortDesc"
                 className="form-control"
-                value={blog && blog.shortDesc}
+                value={shortDesc}
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.shortDesc = event.target.value;
-                  setBlog(temp);
-                  console.log(blog);
+                  setShortDesc(event.target.value);
                 }}
               />
             </div>
@@ -232,18 +216,16 @@ const Blogcreateform = () => {
                 type="text"
                 name="slug"
                 className="form-control"
-                value={blog && blog.slug}
+                value={slug}
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.slug = event.target.value;
-                  setBlog(temp);
-                  console.log(blog);
+                  setSlug(event.target.value);
                 }}
               />
             </div>
             <input type="submit" className="btn" value="Create" />
           </form>
         </div>
+        {/* {imageLoading && <LoadingModal />} */}
       </div>
     </>
   );

@@ -11,8 +11,8 @@ const Navbar = () => {
             <li className={router.pathname == "/" ? "activelink" : null}>
               <Link href="/">&nbsp;Case Study</Link>
             </li>
-            <li className={router.pathname == "/bloglist" ? "activelink" : null}>
-              <Link href="/bloglist">&nbsp; Blog</Link>
+            <li className={router.pathname == "/blog-list" ? "activelink" : null}>
+              <Link href="/blog-list">&nbsp; Blog</Link>
             </li>
           </div>
         </ul>

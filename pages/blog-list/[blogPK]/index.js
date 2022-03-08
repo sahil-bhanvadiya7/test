@@ -1,31 +1,28 @@
 import Editor from "../../../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { toast } from "react-toastify";
+import LoadingModal from "../../../components/Modal/LoadingModal";
 const BlogEditform = ({ posts, encoded }) => {
   const router = useRouter();
-  // console.log(posts);
   const [editorLoaded, setEditorLoaded] = useState(false);
-  const [blog, setBlog] = useState({
-    title: posts.title,
-    body: posts.body,
-    slug: posts.slug,
-    image: posts.image,
-    entityName: posts.entityName,
-    services: posts.services,
-    shortDesc: posts.shortDesc,
-  });
+  const [title, setTitle] = useState(posts.title);
+  const [body, setBody] = useState(posts.body);
+  const [slug, setSlug] = useState(posts.slug);
+  const [image, setImage] = useState(posts.image);
+  const [entityName, setEntityName] = useState(posts.entityName);
+  const [services, setServices] = useState(posts.services);
+  const [shortDesc, setShortDesc] = useState(posts.shortDesc);
   const [blogImage, setBlogImage] = useState({ file: null });
   const [imageLoading, setimageLoading] = useState(false);
-
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
-  console.log(blog);
   const handleChange = (ckEditorData) => {
-    const temp = { ...blog };
-    temp.body = ckEditorData.data;
-    setBlog(temp);
+    // const temp = { ...blog };
+    // temp.body = ckEditorData.data;
+    // setBlog(temp);
+    setBody(ckEditorData.data);
   };
   const onBlogImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -46,12 +43,20 @@ const BlogEditform = ({ posts, encoded }) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          const temp = { ...blog };
-          temp.image = data.imagePath;
-          setBlog(temp);
+          const responseImage = data.imagePath;
+          setImage(responseImage);
           setimageLoading(false);
         });
     }
+  };
+  const blog = {
+    title,
+    body,
+    slug,
+    image,
+    entityName,
+    services,
+    shortDesc,
   };
   const submit = () => {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -59,7 +64,11 @@ const BlogEditform = ({ posts, encoded }) => {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blog),
-    }).then((response) => response.ok && router.push("/bloglist"));
+    }).then((response) => {
+      response.ok &&
+        router.replace("/blog-list") &&
+        toast.success("Blog edited successfully.");
+    });
   };
   return (
     <>
@@ -82,12 +91,10 @@ const BlogEditform = ({ posts, encoded }) => {
               <input
                 type="text"
                 name="title"
-                value={blog && blog.title}
+                value={title}
                 className="form-control"
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.title = event.target.value;
-                  setBlog(temp);
+                  setTitle(event.target.value);
                 }}
               />
             </div>
@@ -101,11 +108,9 @@ const BlogEditform = ({ posts, encoded }) => {
               <input
                 type="text"
                 name="entityName"
-                value={blog && blog.entityName}
+                value={entityName}
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.entityName = event.target.value;
-                  setBlog(temp);
+                  setEntityName(event.target.value);
                 }}
                 className="form-control"
               />
@@ -122,25 +127,10 @@ const BlogEditform = ({ posts, encoded }) => {
                 name="body"
                 handleEditorData={handleChange}
                 editorLoaded={editorLoaded}
-                value={blog && blog.body}
+                value={body}
               />
             </div>
-            {/* <div className="mb-5">
-              <label htmlFor="formFileLg" className="form-label font_1">
-                Image Select
-              </label>
-              <input
-                type="text"
-                name="image"
-                value={blog && blog.image}
-                onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.image = event.target.value;
-                  setBlog(temp);
-                }}
-                className="form-control"
-              />
-            </div> */}
+
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -156,6 +146,21 @@ const BlogEditform = ({ posts, encoded }) => {
                 onChange={onBlogImageChange}
               />
             </div>
+            {blogImage.file ? (
+              <div className="mb-3">
+                <img
+                  src={URL.createObjectURL(blogImage.file)}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
+                  alt="beforepic"
+                />
+              </div>
+            ) : (
+              <p className="text-danger">Please select image for preview.</p>
+            )}
             <div className="my-3">
               <button
                 type="button my-3"
@@ -163,18 +168,19 @@ const BlogEditform = ({ posts, encoded }) => {
                 onClick={onImageUploadHandler}
               >
                 {imageLoading ? "Uploading..." : "Upload Image"}
-                {/* Upload Image */}
               </button>
             </div>
             <div className="mb-3">
-              {blog.image ? (
+              {!blogImage.file && image && (
                 <img
-                  src={blog.image}
-                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
+                  src={image}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
                   alt="pic"
                 />
-              ) : (
-                <p className="text-danger">Please upload image for preview.</p>
               )}
             </div>
 
@@ -189,11 +195,9 @@ const BlogEditform = ({ posts, encoded }) => {
                 type="text"
                 name="services"
                 className="form-control"
-                value={blog && blog.services}
+                value={services}
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.services = event.target.value;
-                  setBlog(temp);
+                  setServices(event.target.value);
                 }}
               />
             </div>
@@ -208,11 +212,9 @@ const BlogEditform = ({ posts, encoded }) => {
                 type="text"
                 name="shortDesc"
                 className="form-control"
-                value={blog && blog.shortDesc}
+                value={shortDesc}
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.shortDesc = event.target.value;
-                  setBlog(temp);
+                  setShortDesc(event.target.value);
                 }}
               />
             </div>
@@ -227,17 +229,16 @@ const BlogEditform = ({ posts, encoded }) => {
                 type="text"
                 name="slug"
                 className="form-control"
-                value={blog && blog.slug}
+                value={slug}
                 onChange={(event) => {
-                  const temp = { ...blog };
-                  temp.slug = event.target.value;
-                  setBlog(temp);
+                  setSlug(event.target.value);
                 }}
               />
             </div>
             <input type="submit" className="btn" value="Update" />
           </form>
         </div>
+        {/* {imageLoading && <LoadingModal />} */}
       </div>
     </>
   );

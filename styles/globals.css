@@ -2,7 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Poppins',sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 a {
@@ -13,12 +13,12 @@ a {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins',sans-serif;
-  background: #eaf6f7e7
+  font-family: "Poppins", sans-serif;
+  background: #eaf6f7e7;
 }
 
 .logo {
-  padding: 20px
+  padding: 20px;
 }
 
 nav ul {
@@ -36,16 +36,15 @@ nav ul {
 nav ul li {
   list-style: none;
   color: #fff;
-
 }
-.activelink{
+.activelink {
   color: #000000;
   background: #e3e9f7;
   border-radius: 40px 0 0 40px;
 }
 nav ul li a {
   display: block;
-  font-family: 'Poppins',sans-serif;
+  font-family: "Poppins", sans-serif;
   text-decoration: none;
   font-size: 16px;
   padding: 15px 0px 15px 25px;
@@ -57,7 +56,7 @@ nav ul li a:hover {
   border-radius: 40px 0 0 40px;
 }
 
-.activelink{
+.activelink {
   color: #2b2626;
   background: #e3e9f7;
   border-radius: 40px 0 0 40px;
@@ -73,38 +72,59 @@ nav ul li a:hover {
   display: grid;
   place-items: center;
   min-height: 100vh;
-  text-align: center
+  text-align: center;
 }
 
 .box-area h2 {
   text-transform: uppercase;
-  font-size: 30px
+  font-size: 30px;
 }
-.font_1{
+.font_1 {
   /* text-transform: uppercase; */
   font-size: 16px;
 }
-.ul{
+.ul {
   margin-top: 20rem;
 }
-.ck_editer{
+.ck_editer {
   /* height: 10%; */
   width: 100%;
 }
-.ck_editer1{
-height: 10px;
+.ck_editer1 {
+  height: 10px;
 }
-.btn{
+.btn {
   background-color: #00848a;
   color: rgb(250, 246, 246);
 }
-.modifycontainer{
+.modifycontainer {
   padding-right: 20%;
   padding-left: 20%;
 }
 @media screen and (max-width: 1200px) {
-  .modifycontainer{
+  .modifycontainer {
     padding-right: 3%;
     padding-left: 3%;
+  }
+}
+
+.sbl-circ {
+  height: 48px;
+  width: 48px;
+  color: #5a5a5a;
+  position: relative;
+  display: inline-block;
+  border: 5px solid;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

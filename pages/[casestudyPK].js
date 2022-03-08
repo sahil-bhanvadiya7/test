@@ -1,44 +1,47 @@
 import Editor from "../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { toast } from "react-toastify";
+import Select from "react-select";
+import LoadingModal from "../components/Modal/LoadingModal";
+import { dropdownData } from "../components/dropdownData";
 const CaseStudyeditform = ({ posts, encoded }) => {
+  console.log(posts);
   const router = useRouter();
-  // console.log(posts);
   const [editorLoaded, setEditorLoaded] = useState(false);
-  const [data, setData] = useState({
-    title: posts.title,
-    entityName: posts.entityName,
-    clientProfile: posts.clientProfile,
-    image: posts.image,
-    challenge: posts.challenge,
-    industry: posts.industry,
-    subTitle: posts.subTitle,
-    solution: posts.solution,
-    techs: posts.techs,
-    keyBenefits: posts.keyBenefits,
-    thumbImage: posts.thumbImage,
-    mainImage: posts.mainImage,
-    slug: posts.slug,
-  });
+  const [title, setTitle] = useState(posts.title);
+  const [entityName, setEntityName] = useState(posts.entityName);
+  const [clientProfile, setClientProfile] = useState(posts.clientProfile);
+  const [image, setimage] = useState(posts.image);
+  const [challenge, setChallenge] = useState(posts.challenge);
+  const [industry, setindustry] = useState(posts.industry);
+  const [subTitle, setSubTitle] = useState(posts.subTitle);
+  const [solution, setSolution] = useState(posts.solution);
+  const [techs, setTechs] = useState(posts.techs);
+  const [keyBenefits, setKeyBenefits] = useState(posts.keyBenefits);
+  const [mainImage, setmainImage] = useState(posts.mainImage);
+  const [thumbImage, setthumbImage] = useState(posts.thumbImage);
+  const [slug, setSlug] = useState(posts.slug);
   const [Image, setImage] = useState({ file: null });
   const [MainImage, setMainImage] = useState({ file: null });
   const [ThumbImage, setThumbImage] = useState({ file: null });
   const [imageLoading, setimageLoading] = useState(false);
   const [mainImageLoading, setMainImageLoading] = useState(false);
   const [thumbImageLoading, setThumbImageLoading] = useState(false);
+  // const uploadLoading = imageLoading || mainImageLoading || thumbImageLoading;
 
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
 
-  const handleChange = (ckEditorData) => {
-    const temp = { ...data };
-    temp[`${ckEditorData.id}`] = ckEditorData.data;
-    setData(temp);
-    // const temp = { ...ckEditorData }
-    // setTarget(temp.data)
-    console.log(ckEditorData);
+  const handleChangeClient = (ckEditorData) => {
+    setClientProfile(ckEditorData.data);
+  };
+  const handleChangeChallenge = (ckEditorData) => {
+    setChallenge(ckEditorData.data);
+  };
+  const handleChangeSolution = (ckEditorData) => {
+    setSolution(ckEditorData.data);
   };
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -59,9 +62,8 @@ const CaseStudyeditform = ({ posts, encoded }) => {
       })
         .then((response) => response.json())
         .then((imgdata) => {
-          const temp = { ...data };
-          temp.image = imgdata.imagePath;
-          setData(temp);
+          const responseImage = imgdata.imagePath;
+          setimage(responseImage);
           setimageLoading(false);
         });
     }
@@ -85,9 +87,8 @@ const CaseStudyeditform = ({ posts, encoded }) => {
       })
         .then((response) => response.json())
         .then((imgdata) => {
-          const temp = { ...data };
-          temp.mainImage = imgdata.imagePath;
-          setData(temp);
+          const responseImage = imgdata.imagePath;
+          setmainImage(responseImage);
           setMainImageLoading(false);
         });
     }
@@ -111,12 +112,29 @@ const CaseStudyeditform = ({ posts, encoded }) => {
       })
         .then((response) => response.json())
         .then((imgdata) => {
-          const temp = { ...data };
-          temp.thumbImage = imgdata.imagePath;
-          setData(temp);
+          const responseImage = imgdata.imagePath;
+          setthumbImage(responseImage);
           setThumbImageLoading(false);
         });
     }
+  };
+  const handleDropdownChange = (e) => {
+    setTechs(Array.isArray(e) ? e.map((x) => x.value) : []);
+  };
+  const data = {
+    title,
+    entityName,
+    clientProfile,
+    image,
+    challenge,
+    industry,
+    subTitle,
+    solution,
+    techs,
+    keyBenefits,
+    thumbImage,
+    mainImage,
+    slug,
   };
   const submit = () => {
     const url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -124,7 +142,11 @@ const CaseStudyeditform = ({ posts, encoded }) => {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-    }).then((response) => response.ok && router.push("/"));
+    }).then((response) => {
+      response.ok &&
+        router.replace("/") &&
+        toast.success("Case-Study edited successfully.");
+    });
   };
   return (
     <>
@@ -148,12 +170,10 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               <input
                 type="text"
                 name="title"
-                value={data.title}
+                value={title}
                 className="form-control"
                 onChange={(event) => {
-                  const temp = { ...data };
-                  temp.title = event.target.value;
-                  setData(temp);
+                  setTitle(event.target.value);
                 }}
               />
             </div>
@@ -167,12 +187,10 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               <input
                 type="text"
                 name="entityname"
-                value={data.entityName}
+                value={entityName}
                 className="form-control"
                 onChange={(event) => {
-                  const temp = { ...data };
-                  temp.entityName = event.target.value;
-                  setData(temp);
+                  setEntityName(event.target.value);
                 }}
               />
             </div>
@@ -184,9 +202,9 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                 Client Profile
               </label>
               <Editor
-                name="clientprofile"
-                handleEditorData={handleChange}
-                value={data.clientProfile}
+                name="clientProfile"
+                handleEditorData={handleChangeClient}
+                value={clientProfile}
                 editorLoaded={editorLoaded}
               />
             </div>
@@ -199,8 +217,8 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               </label>
               <Editor
                 name="challenge"
-                handleEditorData={handleChange}
-                value={data.challenge}
+                handleEditorData={handleChangeChallenge}
+                value={challenge}
                 editorLoaded={editorLoaded}
               />
             </div>
@@ -214,12 +232,10 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               <input
                 type="text"
                 name="indutry"
-                value={data.industry}
+                value={industry}
                 className="form-control"
                 onChange={(event) => {
-                  const temp = { ...data };
-                  temp.industry = event.target.value;
-                  setData(temp);
+                  setindustry(event.target.value);
                 }}
               />
             </div>
@@ -234,12 +250,10 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               <input
                 type="text"
                 name="subtitle"
-                value={data.subTitle}
+                value={subTitle}
                 className="form-control"
                 onChange={(event) => {
-                  const temp = { ...data };
-                  temp.subTitle = event.target.value;
-                  setData(temp);
+                  setSubTitle(event.target.value);
                 }}
               />
             </div>
@@ -259,24 +273,42 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                 onChange={onImageChange}
               />
             </div>
+            {Image.file ? (
+              <div className="mb-3">
+                <img
+                  src={URL.createObjectURL(Image.file)}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
+                  alt="beforepic"
+                />
+              </div>
+            ) : (
+              <p className="text-danger">Please select image for preview.</p>
+            )}
             <div className="my-3">
               <button
                 type="button my-3"
                 className="btn"
+                // disabled={mainImageLoading || thumbImageLoading}
                 onClick={onImageUploadHandler}
               >
                 {imageLoading ? "Uploading..." : "Upload Image"}
               </button>
             </div>
             <div className="mb-3">
-              {data.image ? (
+              {!Image.file && image && (
                 <img
-                  src={data.image}
-                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
+                  src={image}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
                   alt="pic"
                 />
-              ) : (
-                <p className="text-danger">Please upload image for preview.</p>
               )}
             </div>
 
@@ -295,26 +327,44 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                 onChange={onMainImageChange}
               />
             </div>
+            {MainImage.file ? (
+              <div className="mb-3">
+                <img
+                  src={URL.createObjectURL(MainImage.file)}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
+                  alt="beforepic"
+                />
+              </div>
+            ) : (
+              <p className="text-danger">
+                Please select Main image for preview.
+              </p>
+            )}
             <div className="my-3">
               <button
                 type="button my-3"
                 className="btn"
+                // disabled={imageLoading || thumbImageLoading}
                 onClick={onMainImageUploadHandler}
               >
                 {mainImageLoading ? "Uploading..." : "Upload Image"}
               </button>
             </div>
             <div className="mb-3">
-              {data.mainImage ? (
+              {!MainImage.file && mainImage && (
                 <img
-                  src={data.mainImage}
-                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
+                  src={mainImage}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
                   alt="pic"
                 />
-              ) : (
-                <p className="text-danger">
-                  Please upload Main image for preview.
-                </p>
               )}
             </div>
 
@@ -333,45 +383,46 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                 onChange={onThumbImageChange}
               />
             </div>
+            {ThumbImage.file ? (
+              <div className="mb-3">
+                <img
+                  src={URL.createObjectURL(ThumbImage.file)}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
+                  alt="beforepic"
+                />
+              </div>
+            ) : (
+              <p className="text-danger">
+                Please select Thumb image for preview.
+              </p>
+            )}
             <div className="my-3">
               <button
                 type="button my-3"
                 className="btn"
+                // disabled={imageLoading || mainImageLoading}
                 onClick={onThumbImageUploadHandler}
               >
                 {thumbImageLoading ? "Uploading..." : "Upload Image"}
               </button>
             </div>
             <div className="mb-3">
-              {data.thumbImage ? (
+              {!ThumbImage.file && thumbImage && (
                 <img
-                  src={data.thumbImage}
-                  style={{ objectFit: "cover", height: "100%", width: "100%" }}
+                  src={thumbImage}
+                  style={{
+                    objectFit: "cover",
+                    height: "150px",
+                    width: "150px",
+                  }}
                   alt="pic"
                 />
-              ) : (
-                <p className="text-danger">
-                  Please upload Thumb image for preview.
-                </p>
               )}
             </div>
-
-            {/* <div className="mb-5">
-              <label htmlFor="formFileLg" className="form-label font_1">
-                Image Select
-              </label>
-              <input
-                type="text"
-                name="image"
-                value={data.image}
-                className="form-control"
-                onChange={(event) => {
-                  const temp = { ...data };
-                  temp.image = event.target.value;
-                  setData(temp);
-                }}
-              />
-            </div> */}
 
             <div className="mb-3">
               <label
@@ -382,9 +433,9 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               </label>
               <Editor
                 name="solution"
-                handleEditorData={handleChange}
+                handleEditorData={handleChangeSolution}
                 editorLoaded={editorLoaded}
-                value={data.solution}
+                value={solution}
               />
             </div>
             <div className="mb-3">
@@ -394,16 +445,16 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               >
                 Techs
               </label>
-              <input
-                type="text"
-                name="techs"
-                value={data.techs}
-                className="form-control"
-                onChange={(event) => {
-                  const temp = { ...data };
-                  temp.techs = event.target.value;
-                  setData(temp);
-                }}
+              <Select
+                id="long-value-select"
+                instanceId="long-value-select"
+                className="dropdown"
+                placeholder="Select Option"
+                value={dropdownData.filter((obj) => techs.includes(obj.value))}
+                options={dropdownData}
+                onChange={handleDropdownChange}
+                isMulti
+                isClearable
               />
             </div>
             <div className="mb-3">
@@ -415,13 +466,11 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               </label>
               <input
                 type="text"
-                value={data.keyBenefits}
+                value={keyBenefits}
                 name="keybenefits"
                 className="form-control"
                 onChange={(event) => {
-                  const temp = { ...data };
-                  temp.keyBenefits = event.target.value;
-                  setData(temp);
+                  setKeyBenefits(event.target.value);
                 }}
               />
             </div>
@@ -434,19 +483,18 @@ const CaseStudyeditform = ({ posts, encoded }) => {
               </label>
               <input
                 type="text"
-                value={data.slug}
+                value={slug}
                 name="slug"
                 className="form-control"
                 onChange={(event) => {
-                  const temp = { ...data };
-                  temp.slug = event.target.value;
-                  setData(temp);
+                  setSlug(event.target.value);
                 }}
               />
             </div>
             <input type="submit" className="btn" value="Update" />
           </form>
         </div>
+        {/* {uploadLoading && <LoadingModal />} */}
       </div>
     </>
   );
