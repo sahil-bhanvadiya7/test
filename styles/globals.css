@@ -56,12 +56,6 @@ nav ul li a:hover {
   border-radius: 40px 0 0 40px;
 }
 
-.activelink {
-  color: #2b2626;
-  background: #e3e9f7;
-  border-radius: 40px 0 0 40px;
-}
-
 .wrapper {
   margin-left: 260px;
   margin-top: 50px;

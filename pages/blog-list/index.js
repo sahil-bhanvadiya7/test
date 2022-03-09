@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 
 const bloglist = ({ posts }) => {
-  // console.log(posts);
   const router = useRouter();
   return (
     <>
@@ -69,5 +68,6 @@ export async function getStaticProps() {
     props: {
       posts,
     },
+    revalidate: 1, 
   };
 }

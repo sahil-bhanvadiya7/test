@@ -3,14 +3,13 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import LoadingModal from "../../../components/Modal/LoadingModal";
-const BlogEditform = ({ posts, encoded }) => {
+const BlogEditform = ({ posts, encoded, url }) => {
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [title, setTitle] = useState(posts.title);
   const [body, setBody] = useState(posts.body);
   const [slug, setSlug] = useState(posts.slug);
   const [image, setImage] = useState(posts.image);
-  // const [entityName, setEntityName] = useState(posts.entityName);
   const [services, setServices] = useState(posts.services);
   const [shortDesc, setShortDesc] = useState(posts.shortDesc);
   const [blogImage, setBlogImage] = useState({ file: null });
@@ -19,9 +18,6 @@ const BlogEditform = ({ posts, encoded }) => {
     setEditorLoaded(true);
   }, []);
   const handleChange = (ckEditorData) => {
-    // const temp = { ...blog };
-    // temp.body = ckEditorData.data;
-    // setBlog(temp);
     setBody(ckEditorData.data);
   };
   const onBlogImageChange = (event) => {
@@ -32,7 +28,6 @@ const BlogEditform = ({ posts, encoded }) => {
   };
   const onImageUploadHandler = (e) => {
     e.preventDefault();
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", blogImage.file);
     if (blogImage.file) {
@@ -58,7 +53,6 @@ const BlogEditform = ({ posts, encoded }) => {
     shortDesc,
   };
   const submit = () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     fetch(`${url}blogs/${encoded}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -97,24 +91,6 @@ const BlogEditform = ({ posts, encoded }) => {
                 }}
               />
             </div>
-            {/* <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlInput1"
-                className="form-label font_1"
-              >
-                entity Name
-              </label>
-              <input
-                type="text"
-                name="entityName"
-                value={entityName}
-                onChange={(event) => {
-                  setEntityName(event.target.value);
-                }}
-                className="form-control"
-              />
-            </div> */}
-
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -264,7 +240,9 @@ export async function getStaticProps({ params }) {
     props: {
       posts,
       encoded,
+      url,
     },
+    revalidate: 1,
   };
 }
 export default BlogEditform;

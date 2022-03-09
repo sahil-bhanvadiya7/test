@@ -2,15 +2,13 @@ import Editor from "../../../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import LoadingModal from "../../../components/Modal/LoadingModal";
-const Blogcreateform = () => {
+const Blogcreateform = ({url}) => {
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState("");
-  // const [entityName, setEntityName] = useState("");
   const [services, setServices] = useState("");
   const [shortDesc, setShortDesc] = useState("");
   const [blogImage, setBlogImage] = useState({ file: null });
@@ -28,10 +26,8 @@ const Blogcreateform = () => {
       setBlogImage({ file: img });
     }
   };
-  console.log(blogImage.file);
   const onImageUploadHandler = (e) => {
     e.preventDefault();
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", blogImage.file);
     if (blogImage.file) {
@@ -58,7 +54,6 @@ const Blogcreateform = () => {
     shortDesc,
   };
   const submit = (e) => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     fetch(`${url}blogs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -137,25 +132,6 @@ const Blogcreateform = () => {
                 {imageLoading ? "Uploading..." : "Upload Image"}
               </button>
             </div>
-
-            {/* <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlInput1"
-                className="form-label font_1"
-              >
-                entity Name
-              </label>
-              <input
-                type="text"
-                name="entityName"
-                value={entityName}
-                onChange={(event) => {
-                  setEntityName(event.target.value);
-                }}
-                className="form-control"
-              />
-            </div> */}
-
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -229,5 +205,13 @@ const Blogcreateform = () => {
     </>
   );
 };
-
+export async function getStaticProps() {
+  const url = process.env.BASE_URL;
+  return {
+    props: {
+      url,
+    },
+    revalidate: 1,
+  };
+}
 export default Blogcreateform;

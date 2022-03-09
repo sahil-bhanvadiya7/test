@@ -5,12 +5,10 @@ import { toast } from "react-toastify";
 import Select from "react-select";
 import LoadingModal from "../components/Modal/LoadingModal";
 import { dropdownData } from "../components/dropdownData";
-const CaseStudyeditform = ({ posts, encoded }) => {
-  console.log(posts);
+const CaseStudyeditform = ({ posts, encoded, url }) => {
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [title, setTitle] = useState(posts.title);
-  // const [entityName, setEntityName] = useState(posts.entityName);
   const [clientProfile, setClientProfile] = useState(posts.clientProfile);
   const [image, setimage] = useState(posts.image);
   const [challenge, setChallenge] = useState(posts.challenge);
@@ -29,7 +27,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
   const [mainImageLoading, setMainImageLoading] = useState(false);
   const [thumbImageLoading, setThumbImageLoading] = useState(false);
   // const uploadLoading = imageLoading || mainImageLoading || thumbImageLoading;
-
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
@@ -51,7 +48,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
   };
   const onImageUploadHandler = (e) => {
     e.preventDefault();
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", Image.file);
     if (Image.file) {
@@ -76,7 +72,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
   };
   const onMainImageUploadHandler = (e) => {
     e.preventDefault();
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", MainImage.file);
     if (MainImage.file) {
@@ -101,7 +96,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
   };
   const onThumbImageUploadHandler = (e) => {
     e.preventDefault();
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", ThumbImage.file);
     if (ThumbImage.file) {
@@ -136,7 +130,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
     slug,
   };
   const submit = () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     fetch(`${url}case-studies/${encoded}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -176,23 +169,6 @@ const CaseStudyeditform = ({ posts, encoded }) => {
                 }}
               />
             </div>
-            {/* <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlInput1"
-                className="form-label font_1"
-              >
-                Entity Name
-              </label>
-              <input
-                type="text"
-                name="entityname"
-                value={entityName}
-                className="form-control"
-                onChange={(event) => {
-                  setEntityName(event.target.value);
-                }}
-              />
-            </div> */}
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -520,7 +496,9 @@ export async function getStaticProps({ params }) {
     props: {
       posts,
       encoded,
+      url,
     },
+    revalidate: 1,
   };
 }
 export default CaseStudyeditform;

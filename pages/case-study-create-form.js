@@ -4,12 +4,10 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { dropdownData } from "../components/dropdownData";
-import LoadingModal from "../components/Modal/LoadingModal";
-const CasestudyCreateform = () => {
+const CasestudyCreateform = ({ url }) => {
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [title, setTitle] = useState("");
-  // const [entityName, setEntityName] = useState("");
   const [clientProfile, setClientProfile] = useState("");
   const [image, setimage] = useState("");
   const [challenge, setChallenge] = useState("");
@@ -27,7 +25,6 @@ const CasestudyCreateform = () => {
   const [imageLoading, setimageLoading] = useState(false);
   const [mainImageLoading, setMainImageLoading] = useState(false);
   const [thumbImageLoading, setThumbImageLoading] = useState(false);
-  // const uploadLoading = imageLoading || mainImageLoading || thumbImageLoading;
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -50,7 +47,6 @@ const CasestudyCreateform = () => {
   };
   const onImageUploadHandler = (e) => {
     e.preventDefault();
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", Image.file);
     if (Image.file) {
@@ -75,7 +71,6 @@ const CasestudyCreateform = () => {
   };
   const onMainImageUploadHandler = (e) => {
     e.preventDefault();
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", MainImage.file);
     if (MainImage.file) {
@@ -100,7 +95,6 @@ const CasestudyCreateform = () => {
   };
   const onThumbImageUploadHandler = (e) => {
     e.preventDefault();
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     const formData = new FormData();
     formData.append("image", ThumbImage.file);
     if (ThumbImage.file) {
@@ -135,7 +129,6 @@ const CasestudyCreateform = () => {
     slug,
   };
   const submit = () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL;
     fetch(`${url}case-studies`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -176,23 +169,6 @@ const CasestudyCreateform = () => {
                 }}
               />
             </div>
-            {/* <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlInput1"
-                className="form-label font_1"
-              >
-                Entity Name
-              </label>
-              <input
-                type="text"
-                name="entityname"
-                value={entityName}
-                className="form-control"
-                onChange={(event) => {
-                  setEntityName(event.target.value);
-                }}
-              />
-            </div> */}
             <div className="mb-3">
               <label
                 htmlFor="exampleFormControlInput1"
@@ -459,5 +435,13 @@ const CasestudyCreateform = () => {
     </>
   );
 };
-
+export async function getStaticProps() {
+  const url = process.env.BASE_URL;
+  return {
+    props: {
+      url,
+    },
+    revalidate: 1,
+  };
+}
 export default CasestudyCreateform;
