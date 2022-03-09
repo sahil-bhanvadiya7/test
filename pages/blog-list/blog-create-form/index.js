@@ -200,7 +200,6 @@ const Blogcreateform = ({url}) => {
             <input type="submit" className="btn" value="Create" />
           </form>
         </div>
-        {/* {imageLoading && <LoadingModal />} */}
       </div>
     </>
   );

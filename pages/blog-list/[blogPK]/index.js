@@ -2,7 +2,6 @@ import Editor from "../../../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import LoadingModal from "../../../components/Modal/LoadingModal";
 const BlogEditform = ({ posts, encoded, url }) => {
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
@@ -213,7 +212,6 @@ const BlogEditform = ({ posts, encoded, url }) => {
             <input type="submit" className="btn" value="Update" />
           </form>
         </div>
-        {/* {imageLoading && <LoadingModal />} */}
       </div>
     </>
   );

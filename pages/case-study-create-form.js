@@ -266,7 +266,6 @@ const CasestudyCreateform = ({ url }) => {
               <button
                 type="button my-3"
                 className="btn"
-                // disabled={mainImageLoading || thumbImageLoading}
                 onClick={onImageUploadHandler}
               >
                 {imageLoading ? "Uploading..." : "Upload Image"}
@@ -309,7 +308,6 @@ const CasestudyCreateform = ({ url }) => {
               <button
                 type="button my-3"
                 className="btn"
-                // disabled={imageLoading || thumbImageLoading}
                 onClick={onMainImageUploadHandler}
               >
                 {mainImageLoading ? "Uploading..." : "Upload Image"}
@@ -352,7 +350,6 @@ const CasestudyCreateform = ({ url }) => {
               <button
                 type="button my-3"
                 className="btn"
-                // disabled={imageLoading || mainImageLoading}
                 onClick={onThumbImageUploadHandler}
               >
                 {thumbImageLoading ? "Uploading..." : "Upload Image"}
@@ -430,7 +427,6 @@ const CasestudyCreateform = ({ url }) => {
             <input type="submit" className="btn" value="Create" />
           </form>
         </div>
-        {/* {uploadLoading && <LoadingModal />} */}
       </div>
     </>
   );

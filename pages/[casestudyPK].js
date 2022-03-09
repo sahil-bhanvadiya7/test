@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Select from "react-select";
-import LoadingModal from "../components/Modal/LoadingModal";
 import { dropdownData } from "../components/dropdownData";
 const CaseStudyeditform = ({ posts, encoded, url }) => {
   const router = useRouter();
@@ -26,7 +25,6 @@ const CaseStudyeditform = ({ posts, encoded, url }) => {
   const [imageLoading, setimageLoading] = useState(false);
   const [mainImageLoading, setMainImageLoading] = useState(false);
   const [thumbImageLoading, setThumbImageLoading] = useState(false);
-  // const uploadLoading = imageLoading || mainImageLoading || thumbImageLoading;
   useEffect(() => {
     setEditorLoaded(true);
   }, []);
@@ -267,7 +265,6 @@ const CaseStudyeditform = ({ posts, encoded, url }) => {
               <button
                 type="button my-3"
                 className="btn"
-                // disabled={mainImageLoading || thumbImageLoading}
                 onClick={onImageUploadHandler}
               >
                 {imageLoading ? "Uploading..." : "Upload Image"}
@@ -323,7 +320,6 @@ const CaseStudyeditform = ({ posts, encoded, url }) => {
               <button
                 type="button my-3"
                 className="btn"
-                // disabled={imageLoading || thumbImageLoading}
                 onClick={onMainImageUploadHandler}
               >
                 {mainImageLoading ? "Uploading..." : "Upload Image"}
@@ -379,7 +375,6 @@ const CaseStudyeditform = ({ posts, encoded, url }) => {
               <button
                 type="button my-3"
                 className="btn"
-                // disabled={imageLoading || mainImageLoading}
                 onClick={onThumbImageUploadHandler}
               >
                 {thumbImageLoading ? "Uploading..." : "Upload Image"}
@@ -469,7 +464,6 @@ const CaseStudyeditform = ({ posts, encoded, url }) => {
             <input type="submit" className="btn" value="Update" />
           </form>
         </div>
-        {/* {uploadLoading && <LoadingModal />} */}
       </div>
     </>
   );
