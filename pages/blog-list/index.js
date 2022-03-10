@@ -60,14 +60,13 @@ const bloglist = ({ posts }) => {
 };
 
 export default bloglist;
-export async function getStaticProps() {
-  const url = process.env.BASE_URL;
+export async function getServerSideProps() {
+  const url = process.env.NEXT_PUBLIC_BASE_URL;
   const res = await fetch(`${url}blogs/all`);
   const posts = await res.json();
   return {
     props: {
       posts,
     },
-    revalidate: 1, 
   };
 }

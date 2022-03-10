@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { dropdownData } from "../components/dropdownData";
-const CasestudyCreateform = ({ url }) => {
+const CasestudyCreateform = () => {
+  const url = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [title, setTitle] = useState("");
@@ -431,13 +432,4 @@ const CasestudyCreateform = ({ url }) => {
     </>
   );
 };
-export async function getStaticProps() {
-  const url = process.env.BASE_URL;
-  return {
-    props: {
-      url,
-    },
-    revalidate: 1,
-  };
-}
 export default CasestudyCreateform;

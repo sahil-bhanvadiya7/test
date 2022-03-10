@@ -2,7 +2,8 @@ import Editor from "../../../components/ckeditor/Editor";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-const Blogcreateform = ({url}) => {
+const Blogcreateform = () => {
+  const url = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [title, setTitle] = useState("");
@@ -204,13 +205,4 @@ const Blogcreateform = ({url}) => {
     </>
   );
 };
-export async function getStaticProps() {
-  const url = process.env.BASE_URL;
-  return {
-    props: {
-      url,
-    },
-    revalidate: 1,
-  };
-}
 export default Blogcreateform;

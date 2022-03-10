@@ -468,22 +468,10 @@ const CaseStudyeditform = ({ posts, encoded, url }) => {
     </>
   );
 };
-export async function getStaticPaths() {
-  const url = process.env.BASE_URL;
-  const res = await fetch(`${url}case-studies/all`);
-  const posts = await res.json();
-  const paths = posts.map((post) => ({
-    params: { casestudyPK: post.PK },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
-}
-export async function getStaticProps({ params }) {
-  const getparams = params.casestudyPK;
-  let encoded = encodeURIComponent(getparams);
-  const url = process.env.BASE_URL;
+export const getServerSideProps = async (context) => {
+  const casestudyPK = context.params.casestudyPK;
+  const encoded = encodeURIComponent(casestudyPK);
+  const url = process.env.NEXT_PUBLIC_BASE_URL;
   const res = await fetch(`${url}case-studies/byId/${encoded}`);
   const posts = await res.json();
   return {
@@ -492,7 +480,7 @@ export async function getStaticProps({ params }) {
       encoded,
       url,
     },
-    revalidate: 1,
   };
-}
+};
+
 export default CaseStudyeditform;
